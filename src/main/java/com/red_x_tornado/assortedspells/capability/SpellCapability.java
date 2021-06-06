@@ -12,8 +12,18 @@ public class SpellCapability {
 		this.player = player;
 	}
 
+	public static SpellCapability get(PlayerEntity player) {
+		return player.getCapability(SpellCapabilityProvider.spellCapability).orElseThrow(() -> new IllegalStateException("All players should have spell capabilities!"));
+	}
+
+	public void copyFrom(SpellCapability caps) {
+		
+	}
+
 	public CompoundNBT write() {
-		return new CompoundNBT();
+		final CompoundNBT nbt = new CompoundNBT();
+
+		return nbt;
 	}
 
 	public void read(CompoundNBT nbt) {

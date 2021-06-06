@@ -1,18 +1,21 @@
 package com.red_x_tornado.assortedspells.capability;
 
+import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
+
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
-public class SpellCapabilityProvider implements ICapabilitySerializable<CompoundNBT> {
+public class SpellCapabilityProvider implements ICapabilityProvider, Runnable {
 
 	@CapabilityInject(SpellCapability.class)
-	public static Capability<?> spellCapability = null;
+	public static Capability<SpellCapability> spellCapability = null;
+
+	public static final ResourceLocation ID = new ResourceLocation(BookOfAssortedSpells.MOD_ID, "spells");
 
 	private final LazyOptional<SpellCapability> optional;
 
@@ -26,14 +29,7 @@ public class SpellCapabilityProvider implements ICapabilitySerializable<Compound
 	}
 
 	@Override
-	public void deserializeNBT(CompoundNBT nbt) {
-		optional.orElseThrow(() -> new IllegalStateException("Capability should not be null!"))
-			.read(nbt);
-	}
-
-	@Override
-	public CompoundNBT serializeNBT() {
-		return optional.orElseThrow(() -> new IllegalStateException("Capability should not be null!"))
-				.write();
+	public void run() {
+		optional.invalidate();
 	}
 }
