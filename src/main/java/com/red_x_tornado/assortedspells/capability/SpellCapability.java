@@ -3,6 +3,7 @@ package com.red_x_tornado.assortedspells.capability;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 
+// Hi.
 public class SpellCapability {
 
 	private final PlayerEntity player;
