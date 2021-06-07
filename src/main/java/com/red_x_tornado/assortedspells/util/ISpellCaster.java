@@ -9,9 +9,10 @@ public interface ISpellCaster {
 	public static ISpellCaster INSTANT = new ISpellCaster() {
 		@Override
 		public boolean begin(SpellCapability caps, CastContext ctx) {
-			if (caps.getPlayer().getEntityWorld().isRemote)
-				for (int i = 0; i < 200; i++)
+			if (caps.getPlayer().getEntityWorld().isRemote) {
+				for (int i = 0; i < ctx.getMaxTicks(); i++)
 					ctx.getSpell().getSpell().doEffects(caps, ctx, ctx.getNextPos(i, 0F));
+			}
 
 			ctx.getSpell().getSpell().cast(caps, ctx);
 
@@ -33,7 +34,7 @@ public interface ISpellCaster {
 			if (caps.getPlayer().getEntityWorld().isRemote)
 				ctx.getSpell().getSpell().doEffects(caps, ctx, ctx.getNextPos(ctx.getTicks(), 0F));
 
-			if (ctx.getTicks() == ctx.getSpell().getDuration()) {
+			if (ctx.getTicks() == ctx.getMaxTicks()) {
 				ctx.getSpell().getSpell().cast(caps, ctx);
 				return false;
 			}

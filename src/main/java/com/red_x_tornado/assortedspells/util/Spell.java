@@ -9,17 +9,19 @@ import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.server.ServerWorld;
 
 public abstract class Spell {
 
 	private static final Map<ResourceLocation,Spell> ALL_SPELLS = new HashMap<>();
 
-	public static final Spell SUMMON_KFC = new Spell(SpellClass.SUPPORT, SpellType.ARCANE, SpellDifficulty.SIMPLE, 3 * 20, 60, builtin("summon_kfc"), ISpellCaster.DELAYED) {
+	public static final Spell SUMMON_KFC = new Spell(SpellClass.SUPPORT, SpellType.ARCANE, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, builtin("summon_kfc"), ISpellCaster.DELAYED) {
 		@Override
 		public void cast(SpellCapability caps, CastContext ctx) {
 			if (!caps.getPlayer().world.isRemote) {
@@ -30,22 +32,35 @@ public abstract class Spell {
 		}
 	};
 
+	public static final Spell LIGHTNING = new Spell(SpellClass.ATTACK, SpellType.EARTH, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, builtin("lightning"), ISpellCaster.INSTANT) {
+		@Override
+		public void cast(SpellCapability caps, CastContext ctx) {
+			if (!caps.getPlayer().world.isRemote) {
+				final LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(caps.getPlayer().world);
+				lightning.moveForced(ctx.getTarget());
+				caps.getPlayer().world.addEntity(lightning);
+			}
+		}
+	};
+
 	private final SpellClass clazz;
 	private final SpellType type;
 	private final SpellDifficulty difficulty;
 	private final int baseCooldown;
 	private final int baseDuration;
+	private final int maxDistance;
 	private final ISpellCaster caster;
 
 	private final ResourceLocation id;
 	private final String langKey;
 
-	public Spell(SpellClass clazz, SpellType type, SpellDifficulty difficulty, int baseCooldown, int baseDuration, ResourceLocation id, ISpellCaster caster) {
+	public Spell(SpellClass clazz, SpellType type, SpellDifficulty difficulty, int baseCooldown, int baseDuration, int maxDistance, ResourceLocation id, ISpellCaster caster) {
 		this.clazz = clazz;
 		this.type = type;
 		this.difficulty = difficulty;
 		this.baseCooldown = baseCooldown;
 		this.baseDuration = baseDuration;
+		this.maxDistance = maxDistance;
 		this.id = id;
 		this.caster = caster;
 		langKey = "spell." + id.getNamespace() + "." + id.getPath();
@@ -89,6 +104,10 @@ public abstract class Spell {
 
 	public int getBaseDuration() {
 		return baseDuration;
+	}
+
+	public int getMaxDistance() {
+		return maxDistance;
 	}
 
 	public ResourceLocation getId() {

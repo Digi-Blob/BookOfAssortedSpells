@@ -14,6 +14,8 @@ public class CastContext {
 	@Nullable
 	private final Entity targetEntity;
 
+	private final double duration;
+
 	private int ticks = 0;
 	private Vector3d pos;
 
@@ -23,6 +25,7 @@ public class CastContext {
 		this.targetEntity = targetEntity;
 		this.start = start;
 		pos = start;
+		duration = (start.distanceTo(target) / spell.getSpell().getMaxDistance()) * spell.getDuration();
 	}
 
 	public SpellInstance getSpell() {
@@ -39,12 +42,19 @@ public class CastContext {
 	}
 
 	protected Vector3d getNextPos(int ticks, float partialTicks) {
-		final int duration = spell.getDuration();
-		final float percent = (ticks + partialTicks) / duration;
+		final double percent = (ticks + partialTicks) / duration;
 		final double x = MathHelper.lerp(percent, start.x, target.x);
 		final double y = MathHelper.lerp(percent, start.y, target.y);
 		final double z = MathHelper.lerp(percent, start.z, target.z);
 		return new Vector3d(x, y, z);
+	}
+
+	public double getDuration() {
+		return duration;
+	}
+
+	public int getMaxTicks() {
+		return MathHelper.ceil(duration);
 	}
 
 	public Vector3d getPos() {

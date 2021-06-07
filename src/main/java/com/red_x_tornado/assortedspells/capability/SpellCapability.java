@@ -56,7 +56,7 @@ public class SpellCapability {
 	}
 
 	public SpellInstance getSelected() {
-		return new SpellInstance(Spell.SUMMON_KFC);
+		return new SpellInstance(Spell.LIGHTNING);
 	}
 
 	public void castSelected(ItemStack stack) {
@@ -66,13 +66,15 @@ public class SpellCapability {
 	protected void cast(SpellInstance spell, ItemStack stack) {
 		final ISpellCaster caster = spell.getSpell().getCaster();
 
-		final RayTraceResult ray = player.pick(30, 0F, false);
+		final RayTraceResult ray = player.pick(spell.getSpell().getMaxDistance(), 0F, false);
 		final Entity targetEntity = ray instanceof EntityRayTraceResult ? ((EntityRayTraceResult) ray).getEntity() : null;
 
 		final CastContext ctx = new CastContext(spell, player.getEyePosition(1F), ray.getHitVec(), targetEntity);
 
 		if (caster.begin(this, ctx))
 			casters.add(Pair.of(ctx, caster));
+
+		spell.applyCast(this, caster);
 	}
 
 	public void tick() {
