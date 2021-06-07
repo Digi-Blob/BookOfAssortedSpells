@@ -17,10 +17,12 @@ import com.red_x_tornado.assortedspells.util.SpellInstance;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceContext.BlockMode;
@@ -98,10 +100,25 @@ public class SpellCapability {
 	protected void cast(SpellInstance spell, ItemStack stack) {
 		final ISpellCaster caster = spell.getSpell().getCaster();
 
-		final RayTraceResult ray = player.pick(spell.getSpell().getMaxDistance(), 0F, false);
-		final Entity targetEntity = ray instanceof EntityRayTraceResult ? ((EntityRayTraceResult) ray).getEntity() : null;
+		final int distance = spell.getSpell().getMaxDistance();
+		final Vector3d start = player.getEyePosition(0F);
+		final Vector3d look = player.getLook(0F);
+		final Vector3d end = new Vector3d(start.x + look.x * distance, start.y + look.y * distance, start.z + look.z * distance);
 
-		final CastContext ctx = new CastContext(spell, player.getEyePosition(1F), ray.getHitVec(), targetEntity);
+		final EntityRayTraceResult entityRay = spell.getSpell().prefersEntities() ? ProjectileHelper.rayTraceEntities(player.world, player, start, end, new AxisAlignedBB(start, end), null) : null;
+		final RayTraceResult ray = entityRay != null ? entityRay : player.pick(distance, 0F, false);
+
+		final Entity targetEntity = entityRay == null ? null : entityRay.getEntity();
+
+		final Vector3d hit;
+
+		if (targetEntity != null) {
+			// We need to correct the ending position's height so that it doesn't always end at the entity's feet.
+			final double newDist = player.getPositionVec().distanceTo(targetEntity.getPositionVec());
+			hit = new Vector3d(ray.getHitVec().x, start.y + look.y * newDist, ray.getHitVec().z);
+		} else hit = ray.getHitVec();
+
+		final CastContext ctx = new CastContext(spell, start, hit, targetEntity);
 
 		if (caster.begin(this, ctx))
 			casters.add(Pair.of(ctx, caster));

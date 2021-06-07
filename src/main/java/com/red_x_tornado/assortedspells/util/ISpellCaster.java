@@ -11,7 +11,7 @@ public interface ISpellCaster {
 		public boolean begin(SpellCapability caps, CastContext ctx) {
 			if (caps.getPlayer().getEntityWorld().isRemote) {
 				for (int i = 0; i < ctx.getMaxTicks(); i++)
-					ctx.getSpell().getSpell().doEffects(caps, ctx, ctx.getNextPos(i, 0F));
+					ctx.getSpell().getSpell().doBeamEffects(caps, ctx, ctx.getNextPos(i, 0F));
 			}
 
 			ctx.getSpell().getSpell().cast(caps, ctx);
@@ -32,7 +32,7 @@ public interface ISpellCaster {
 			ctx.setTicks(ctx.getTicks() + 1);
 
 			if (caps.getPlayer().getEntityWorld().isRemote)
-				ctx.getSpell().getSpell().doEffects(caps, ctx, ctx.getNextPos(ctx.getTicks(), 0F));
+				ctx.getSpell().getSpell().doBeamEffects(caps, ctx, ctx.getNextPos(ctx.getTicks(), 0F));
 
 			if (ctx.getTicks() == ctx.getMaxTicks()) {
 				ctx.getSpell().getSpell().cast(caps, ctx);
