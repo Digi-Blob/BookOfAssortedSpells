@@ -17,6 +17,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -77,6 +78,14 @@ public class BookOfAssortedSpells {
 			final SpellCapability newCap = SpellCapability.get(event.getPlayer());
 
 			newCap.copyFrom(old);
+		}
+
+		@SubscribeEvent
+		static void onPlayerTick(TickEvent.PlayerTickEvent event) {
+			if (event.phase != TickEvent.Phase.START) return;
+
+			final SpellCapability caps = SpellCapability.get(event.player);
+			caps.tick();
 		}
 	}
 }
