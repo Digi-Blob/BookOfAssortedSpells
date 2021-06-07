@@ -2,6 +2,7 @@ package com.red_x_tornado.assortedspells.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -74,6 +75,10 @@ public abstract class Spell {
 	@Nullable
 	public static Spell find(ResourceLocation id) {
 		return ALL_SPELLS.get(id);
+	}
+
+	public static Set<ResourceLocation> getSpellIds() {
+		return ALL_SPELLS.keySet();
 	}
 
 	public ISpellCaster getCaster() {

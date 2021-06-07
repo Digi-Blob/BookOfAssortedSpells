@@ -6,10 +6,13 @@ import org.apache.logging.log4j.Logger;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.capability.SpellCapabilityProvider;
 import com.red_x_tornado.assortedspells.capability.SpellCapabilityStorage;
+import com.red_x_tornado.assortedspells.command.ASCommand;
 import com.red_x_tornado.assortedspells.init.ASBlocks;
 import com.red_x_tornado.assortedspells.init.ASEntities;
 import com.red_x_tornado.assortedspells.init.ASItems;
 import com.red_x_tornado.assortedspells.init.ASTileEntities;
+import com.red_x_tornado.assortedspells.network.ASNetworkManager;
+import com.red_x_tornado.assortedspells.network.msg.SpellSyncMessage;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,8 +20,12 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangedDimensionEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -58,10 +65,17 @@ public class BookOfAssortedSpells {
 				() -> {
 					throw new UnsupportedOperationException("Color capability requires a player!");
 				});
+
+		ASNetworkManager.init();
 	}
 
 	@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.FORGE)
 	static class ForgeEvents {
+
+		@SubscribeEvent
+		static void registerCommands(RegisterCommandsEvent event) {
+			event.getDispatcher().register(ASCommand.create());
+		}
 
 		@SubscribeEvent
 		static void attachCapabilities(AttachCapabilitiesEvent<Entity> event) {
@@ -86,6 +100,21 @@ public class BookOfAssortedSpells {
 
 			final SpellCapability caps = SpellCapability.get(event.player);
 			caps.tick();
+		}
+
+		@SubscribeEvent
+		static void onPlayerJoin(PlayerLoggedInEvent event) {
+			SpellSyncMessage.sync(event.getPlayer());
+		}
+
+		@SubscribeEvent
+		static void onPlayerRespawn(PlayerRespawnEvent event) {
+			SpellSyncMessage.sync(event.getPlayer());
+		}
+
+		@SubscribeEvent
+		static void onPlayerChangeDimension(PlayerChangedDimensionEvent event) {
+			SpellSyncMessage.sync(event.getPlayer());
 		}
 	}
 }

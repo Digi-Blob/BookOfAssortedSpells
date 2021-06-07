@@ -4,6 +4,7 @@ import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 
 public class SpellInstance {
@@ -82,12 +83,40 @@ public class SpellInstance {
 		cooldown = value;
 	}
 
+	public int getMaxCooldown() {
+		return maxCooldown;
+	}
+
+	public void setMaxCooldown(int value) {
+		maxCooldown = value;
+	}
+
 	public int getDuration() {
 		return duration;
 	}
 
 	public void setDuration(int value) {
 		duration = value;
+	}
+
+	public void write(PacketBuffer buf) {
+		buf.writeResourceLocation(spell.getId());
+		buf.writeInt(level);
+		buf.writeInt(maxCasts);
+		buf.writeInt(maxCooldown);
+		buf.writeInt(duration);
+	}
+
+	public static SpellInstance read(PacketBuffer buf) {
+		final ResourceLocation id = buf.readResourceLocation();
+		final SpellInstance spell = new SpellInstance(Spell.find(id));
+
+		spell.setLevel(buf.readInt());
+		spell.setMaxCasts(buf.readInt());
+		spell.setMaxCooldown(buf.readInt());
+		spell.setDuration(buf.readInt());
+
+		return spell;
 	}
 
 	public CompoundNBT toNBT() {

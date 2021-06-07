@@ -1,5 +1,36 @@
 {
   "item.assortedspells.wand": "Wand",
   "block.assortedspells.runestone": "Runestone",
+
+  "assortedspells.class.support": "Support",
+  "assortedspells.class.utility": "Utility",
+  "assortedspells.class.attack": "Attack",
+
+  "assortedspells.difficulty.simple": "Simple",
+  "assortedspells.difficulty.easy": "Easy",
+  "assortedspells.difficulty.complicated": "Complicated",
+  "assortedspells.difficulty.in_depth": "In-Depth",
+  "assortedspells.difficulty.very_difficult": "Very Difficult",
+  "assortedspells.difficulty.insane": "Insane",
+
+  "assortedspells.type.air": "Air",
+  "assortedspells.type.arcane": "Arcane",
+  "assortedspells.type.cosmic": "Cosmic",
+  "assortedspells.type.dark": "Dark",
+  "assortedspells.type.earth": "Earth",
+  "assortedspells.type.fire": "Fire",
+  "assortedspells.type.light": "Light",
+  "assortedspells.type.water": "Water",
+
+  "spell.assortedspells.summon_kfc": "Summon KFC",
+  "spell.assortedspells.lightning": "Lightning",
+
+  "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
+  "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",
+
+  "assortedspells.command.quickspell.notfound": "Unknown spell: %s.",
+  "assortedspells.command.quickspell.notknown": "You don't know the spell %s.",
+  "assortedspells.command.quickspell.success": "Set quickspell %s to %s.",
+
   "itemGroup.assortedspells": "Book of Assorted Spells"
 }
