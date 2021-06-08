@@ -7,6 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 
 public class WandItem extends Item {
@@ -20,7 +21,10 @@ public class WandItem extends Item {
 		final ItemStack stack = playerIn.getHeldItem(handIn);
 		final SpellCapability caps = SpellCapability.get(playerIn);
 
-		if (caps.getSelected().canCast(caps, stack)) {
+		if (caps.getSelected() == null)
+			playerIn.sendStatusMessage(new TranslationTextComponent("assortedspells.message.nospells"), true);
+
+		else if (caps.getSelected().canCast(caps, stack)) {
 			caps.castSelected(stack);
 			return ActionResult.resultSuccess(stack);
 		}

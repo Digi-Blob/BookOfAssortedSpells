@@ -32,5 +32,7 @@
   "assortedspells.command.quickspell.notknown": "You don't know the spell %s.",
   "assortedspells.command.quickspell.success": "Set quickspell %s to %s.",
 
+  "assortedspells.message.nospells": "You don't have any selected spells.",
+
   "itemGroup.assortedspells": "Book of Assorted Spells"
 }
