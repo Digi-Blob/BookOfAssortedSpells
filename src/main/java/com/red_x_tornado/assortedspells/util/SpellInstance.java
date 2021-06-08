@@ -7,6 +7,11 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 
+/**
+ * Like {@link ItemStack ItemStacks}, we have extra data to track that cannot affect all of a type of spell.<br>
+ * This includes the {@linkplain #getLevel() level}, the {@linkplain #getMaxCasts() max casts}, the {@linkplain #getMaxCooldown() cooldown},
+ * and other stuff.
+ */
 public class SpellInstance {
 
 	private final Spell spell;
@@ -23,12 +28,23 @@ public class SpellInstance {
 		maxCooldown = spell.getBaseCooldown();
 	}
 
+	/**
+	 * Whether the player can cast the spell represented by this {@link SpellInstance}.
+	 * @param caps The caster's capability.
+	 * @param wand The wand {@link ItemStack}.
+	 * @return {@code true} if the player can cast this spell.
+	 */
 	public boolean canCast(SpellCapability caps, ItemStack wand) {
 		if (cooldown > 0 || casts == 0) return false;
 
 		return true;
 	}
 
+	/**
+	 * Called upon cast to handle cooldowns and such.
+	 * @param caps The caster's capability.
+	 * @param caster The casting handler.
+	 */
 	public void applyCast(SpellCapability caps, ISpellCaster caster) {
 		if (caster == ISpellCaster.INSTANT || caster == ISpellCaster.DELAYED) {
 			casts--;
@@ -36,6 +52,9 @@ public class SpellInstance {
 		}
 	}
 
+	/**
+	 * Called once every tick to process the cooldown.
+	 */
 	public void tick() {
 		if (cooldown > 0) {
 			cooldown--;

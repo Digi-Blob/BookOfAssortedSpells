@@ -33,6 +33,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+/**
+ * Woah, a main mod class! I haven't seen one of these in minutes!
+ */
 @Mod(BookOfAssortedSpells.MOD_ID)
 public class BookOfAssortedSpells {
 

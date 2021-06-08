@@ -41,8 +41,8 @@ public class CastContext {
 		return targetEntity;
 	}
 
-	protected Vector3d getNextPos(int ticks, float partialTicks) {
-		final double percent = (ticks + partialTicks) / duration;
+	protected Vector3d interpolatePos(int ticks) {
+		final double percent = ticks / duration;
 		final double x = MathHelper.lerp(percent, start.x, target.x);
 		final double y = MathHelper.lerp(percent, start.y, target.y);
 		final double z = MathHelper.lerp(percent, start.z, target.z);

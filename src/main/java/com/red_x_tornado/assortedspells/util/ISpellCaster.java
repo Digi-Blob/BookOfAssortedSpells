@@ -4,15 +4,18 @@ import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
 import net.minecraft.item.ItemStack;
 
+/**
+ * Defines a casting handler for a spell.<br>
+ * These handlers control when exactly a spell's effects should happen, and how.
+ */
 public interface ISpellCaster {
 
 	public static ISpellCaster INSTANT = new ISpellCaster() {
 		@Override
 		public boolean begin(SpellCapability caps, CastContext ctx) {
-			if (caps.getPlayer().getEntityWorld().isRemote) {
+			if (caps.getPlayer().getEntityWorld().isRemote)
 				for (int i = 0; i < ctx.getMaxTicks(); i++)
-					ctx.getSpell().getSpell().doBeamEffects(caps, ctx, ctx.getNextPos(i, 0F));
-			}
+					ctx.getSpell().getSpell().doBeamEffects(caps, ctx, ctx.interpolatePos(i));
 
 			ctx.getSpell().getSpell().cast(caps, ctx);
 
@@ -32,7 +35,7 @@ public interface ISpellCaster {
 			ctx.setTicks(ctx.getTicks() + 1);
 
 			if (caps.getPlayer().getEntityWorld().isRemote)
-				ctx.getSpell().getSpell().doBeamEffects(caps, ctx, ctx.getNextPos(ctx.getTicks(), 0F));
+				ctx.getSpell().getSpell().doBeamEffects(caps, ctx, ctx.interpolatePos(ctx.getTicks()));
 
 			if (ctx.getTicks() == ctx.getMaxTicks()) {
 				ctx.getSpell().getSpell().cast(caps, ctx);
@@ -43,6 +46,19 @@ public interface ISpellCaster {
 		}
 	};
 
+	/**
+	 * Called when the spell is initially cast.
+	 * @param caps The caster's capability.
+	 * @param ctx The cast context.
+	 * @return {@code true} if {@link #tick(SpellCapability, CastContext) tick()} should be called next tick.
+	 */
 	public boolean begin(SpellCapability caps, CastContext ctx);
+
+	/**
+	 * Called every tick for as long as this returns {@code true}.
+	 * @param caps The caster's capability.
+	 * @param ctx The cast context.
+	 * @return {@code true} if this should be called again next tick, or {@code false} if the spell has been performed.
+	 */
 	public boolean tick(SpellCapability caps, CastContext ctx);
 }
