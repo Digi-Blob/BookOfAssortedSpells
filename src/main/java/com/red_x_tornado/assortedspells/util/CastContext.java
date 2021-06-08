@@ -11,6 +11,7 @@ public class CastContext {
 	private final SpellInstance spell;
 	private final Vector3d start;
 	private final Vector3d target;
+	private final Vector3d lookDirection;
 	@Nullable
 	private final Entity targetEntity;
 
@@ -19,11 +20,12 @@ public class CastContext {
 	private int ticks = 0;
 	private Vector3d pos;
 
-	public CastContext(SpellInstance spell, Vector3d start, Vector3d target, @Nullable Entity targetEntity) {
+	public CastContext(SpellInstance spell, Vector3d start, Vector3d target, Vector3d lookDirection, @Nullable Entity targetEntity) {
 		this.spell = spell;
 		this.target = target;
 		this.targetEntity = targetEntity;
 		this.start = start;
+		this.lookDirection = lookDirection;
 		pos = start;
 		duration = start.distanceTo(target) / spell.getSpell().getMaxDistance() * spell.getDuration();
 	}
@@ -34,6 +36,10 @@ public class CastContext {
 
 	public Vector3d getTarget() {
 		return target;
+	}
+
+	public Vector3d getDirection() {
+		return lookDirection;
 	}
 
 	@Nullable

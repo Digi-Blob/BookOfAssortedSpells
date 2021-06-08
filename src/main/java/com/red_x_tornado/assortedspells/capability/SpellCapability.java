@@ -114,7 +114,7 @@ public class SpellCapability {
 			hit = new Vector3d(ray.getHitVec().x, start.y + look.y * newDist, ray.getHitVec().z);
 		} else hit = ray.getHitVec();
 
-		final CastContext ctx = new CastContext(spell, start, hit, targetEntity);
+		final CastContext ctx = new CastContext(spell, start, hit, look, targetEntity);
 
 		if (caster.begin(this, ctx))
 			casters.add(Pair.of(ctx, caster));

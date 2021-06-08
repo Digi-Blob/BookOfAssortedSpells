@@ -9,6 +9,10 @@ import javax.annotation.Nullable;
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
+import net.minecraft.block.AbstractButtonBlock;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.LeverBlock;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
@@ -17,8 +21,14 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.particles.RedstoneParticleData;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 
 /**
  * Contains all the functionality and attributes regarding spells.
@@ -58,17 +68,54 @@ public abstract class Spell {
 			caps.getPlayer().world.addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
 		}
 	};
-	
+
 	public static final Spell FREEZE = new Spell(SpellClass.ATTACK, SpellType.WATER, SpellDifficulty.SIMPLE, 5 * 20, 5 * 30, 30, builtin("freeze"), ISpellCaster.INSTANT) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			if (ctx.getTargetEntity() instanceof LivingEntity) {
+			if (ctx.getTargetEntity() instanceof LivingEntity)
 				((LivingEntity) ctx.getTargetEntity()).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 5 * 20, 100, false, false, true));
-			}
 		}
 		@Override
 		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
 			caps.getPlayer().world.addParticle(ParticleTypes.WHITE_ASH, pos.x, pos.y, pos.z, 0, 0, 0);
+		}
+	};
+
+	public static final Spell POWER_REDSTONE = new Spell(SpellClass.UTILITY, SpellType.COSMIC, SpellDifficulty.COMPLICATED, 20, 2 * 20, 30, builtin("power_redstone"), ISpellCaster.DELAYED) {
+		@SuppressWarnings("deprecation")
+		@Override
+		public void cast(SpellCapability caps, CastContext ctx) {
+			final World world = caps.getPlayer().getEntityWorld();
+			final BlockPos target = new BlockPos(ctx.getTarget());
+			final BlockState state = world.getBlockState(target);
+			if (state.hasProperty(BlockStateProperties.POWERED) && (state.getBlock() instanceof LeverBlock || state.getBlock() instanceof AbstractButtonBlock))
+				state.getBlock().onBlockActivated(state, world, target, caps.getPlayer(), Hand.MAIN_HAND, new BlockRayTraceResult(ctx.getTarget(), Direction.UP, target, false));
+		}
+		@Override
+		protected void serverCast(SpellCapability caps, CastContext ctx) {}
+		@Override
+		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
+			caps.getPlayer().world.addParticle(new RedstoneParticleData(1F, 0F, 0F, 1F), pos.x, pos.y, pos.z, 0, 0, 0);
+		}
+		@Override
+		public boolean prefersEntities() {
+			return false;
+		}
+	};
+
+	public static final Spell LAUNCH = new Spell(SpellClass.ATTACK, SpellType.AIR, SpellDifficulty.EASY, 5 * 20, 2 * 20, 30, builtin("launch"), ISpellCaster.DELAYED) {
+		@Override
+		protected void serverCast(SpellCapability caps, CastContext ctx) {
+			final int motion = 5;
+			final Entity e = ctx.getTargetEntity();
+			if (e instanceof LivingEntity) {
+				final Vector3d dir = ctx.getDirection();
+				e.setMotion(e.getMotion().add(dir.x * motion, 2 + dir.y * motion, dir.z * motion));
+			}
+		}
+		@Override
+		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
+			caps.getPlayer().world.addParticle(ParticleTypes.END_ROD, pos.x, pos.y, pos.z, 0, 0, 0);
 		}
 	};
 

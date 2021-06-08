@@ -25,6 +25,8 @@
   "spell.assortedspells.summon_kfc": "Summon KFC",
   "spell.assortedspells.lightning": "Lightning",
   "spell.assortedspells.freeze": "Freeze",
+  "spell.assortedspells.power_redstone": "Redstone Power!",
+  "spell.assortedspells.launch": "Launch",
 
   "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",
