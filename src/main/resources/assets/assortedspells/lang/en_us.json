@@ -24,6 +24,7 @@
 
   "spell.assortedspells.summon_kfc": "Summon KFC",
   "spell.assortedspells.lightning": "Lightning",
+  "spell.assortedspells.freeze": "Freeze",
 
   "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",

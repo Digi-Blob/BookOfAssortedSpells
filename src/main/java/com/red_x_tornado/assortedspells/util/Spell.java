@@ -10,10 +10,13 @@ import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.particles.RedstoneParticleData;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3d;
 
@@ -57,6 +60,19 @@ public abstract class Spell {
 		@Override
 		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
 			caps.getPlayer().world.addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
+		}
+	};
+	
+	public static final Spell FREEZE = new Spell(SpellClass.ATTACK, SpellType.WATER, SpellDifficulty.SIMPLE, 5 * 20, 5 * 30, 30, builtin("freeze"), ISpellCaster.INSTANT) {
+		@Override
+		protected void serverCast(SpellCapability caps, CastContext ctx) {
+			if (ctx.getTargetEntity() instanceof LivingEntity) {
+				((LivingEntity) ctx.getTargetEntity()).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 5 * 20, 100, false, false, true));
+			}
+		}
+		@Override
+		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
+			caps.getPlayer().world.addParticle(ParticleTypes.WHITE_ASH, pos.x, pos.y, pos.z, 0, 0, 0);
 		}
 	};
 
