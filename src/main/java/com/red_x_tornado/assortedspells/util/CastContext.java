@@ -25,7 +25,7 @@ public class CastContext {
 		this.targetEntity = targetEntity;
 		this.start = start;
 		pos = start;
-		duration = (start.distanceTo(target) / spell.getSpell().getMaxDistance()) * spell.getDuration();
+		duration = start.distanceTo(target) / spell.getSpell().getMaxDistance() * spell.getDuration();
 	}
 
 	public SpellInstance getSpell() {

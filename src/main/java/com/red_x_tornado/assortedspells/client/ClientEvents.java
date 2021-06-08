@@ -2,7 +2,6 @@ package com.red_x_tornado.assortedspells.client;
 
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
-import com.red_x_tornado.assortedspells.init.ASItems;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
@@ -34,9 +33,9 @@ public class ClientEvents {
 			if (newIndex < 0) newIndex = quick.length - 1;
 			else if (newIndex >= quick.length) newIndex = 0;
 
-			if (quick[newIndex] == null) {
+			if (quick[newIndex] == null)
 				continue;
-			} else break;
+			else break;
 		} while (newIndex != index);
 
 		return newIndex;

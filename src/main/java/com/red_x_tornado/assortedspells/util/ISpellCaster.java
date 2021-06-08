@@ -2,8 +2,6 @@ package com.red_x_tornado.assortedspells.util;
 
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
-import net.minecraft.item.ItemStack;
-
 /**
  * Defines a casting handler for a spell.<br>
  * These handlers control when exactly a spell's effects should happen, and how.
