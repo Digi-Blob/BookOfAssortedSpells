@@ -33,11 +33,9 @@ public abstract class Spell {
 	public static final Spell SUMMON_KFC = new Spell(SpellClass.SUPPORT, SpellType.ARCANE, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, builtin("summon_kfc"), ISpellCaster.DELAYED) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			if (!caps.getPlayer().world.isRemote) {
-				final ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN, caps.getPlayer().world);
-				chicken.setPositionAndRotation(ctx.getTarget().x, ctx.getTarget().y, ctx.getTarget().z, 0, 0);
-				caps.getPlayer().world.addEntity(chicken);
-			}
+			final ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN, caps.getPlayer().world);
+			chicken.setPositionAndRotation(ctx.getTarget().x, ctx.getTarget().y, ctx.getTarget().z, 0, 0);
+			caps.getPlayer().world.addEntity(chicken);
 		}
 		@Override
 		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
@@ -51,11 +49,9 @@ public abstract class Spell {
 	public static final Spell LIGHTNING = new Spell(SpellClass.ATTACK, SpellType.EARTH, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, builtin("lightning"), ISpellCaster.INSTANT) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			if (!caps.getPlayer().world.isRemote) {
-				final LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(caps.getPlayer().world);
-				lightning.moveForced(ctx.getTarget());
-				caps.getPlayer().world.addEntity(lightning);
-			}
+			final LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(caps.getPlayer().world);
+			lightning.moveForced(ctx.getTarget());
+			caps.getPlayer().world.addEntity(lightning);
 		}
 		@Override
 		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
