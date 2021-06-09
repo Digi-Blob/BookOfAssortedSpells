@@ -1,11 +1,11 @@
 package com.red_x_tornado.assortedspells.util;
 
+import static com.red_x_tornado.assortedspells.util.ResourceLocations.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Nullable;
-
-import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -16,19 +16,11 @@ public class WandMaterialManager {
 	private static final Map<ResourceLocation,WandCore> CORES = new HashMap<>();
 
 	static {
-		register(new WandCap(mc("block/iron_block"), builtin("iron")));
-		register(new WandCap(mc("block/gold_block"), builtin("gold")));
-		register(new WandRod(mc("block/oak_log"), builtin("oak")));
-		register(new WandRod(mc("block/diamond_block"), builtin("diamond")));
-		register(new WandCore(builtin("oak_planks")));
-	}
-
-	private static ResourceLocation mc(String path) {
-		return new ResourceLocation("minecraft", path);
-	}
-
-	private static ResourceLocation builtin(String path) {
-		return new ResourceLocation(BookOfAssortedSpells.MOD_ID, path);
+		register(new WandCap(mc("block/iron_block"), as("iron")));
+		register(new WandCap(mc("block/gold_block"), as("gold")));
+		register(new WandRod(mc("block/oak_log"), as("oak")));
+		register(new WandRod(mc("block/diamond_block"), as("diamond")));
+		register(new WandCore(as("oak_planks")));
 	}
 
 	public static void register(WandCap cap) {

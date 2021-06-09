@@ -1,10 +1,11 @@
 package com.red_x_tornado.assortedspells.item;
 
+import static com.red_x_tornado.assortedspells.util.ResourceLocations.as;
+
 import java.util.List;
 
 import javax.annotation.Nullable;
 
-import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.client.gui.TomeScreen;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager;
@@ -36,22 +37,22 @@ public class WandItem extends Item {
 
 	public static WandCap getTopCap(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "topCap");
-		return id == null ? WandMaterialManager.getCap(new ResourceLocation(BookOfAssortedSpells.MOD_ID, "iron")) : WandMaterialManager.getCap(id);
+		return id == null ? WandMaterialManager.getCap(as("iron")) : WandMaterialManager.getCap(id);
 	}
 
 	public static WandRod getRod(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "rod");
-		return id == null ? WandMaterialManager.getRod(new ResourceLocation(BookOfAssortedSpells.MOD_ID, "oak")) : WandMaterialManager.getRod(id);
+		return id == null ? WandMaterialManager.getRod(as("oak")) : WandMaterialManager.getRod(id);
 	}
 
 	public static WandCap getBottomCap(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "bottomCap");
-		return id == null ? WandMaterialManager.getCap(new ResourceLocation(BookOfAssortedSpells.MOD_ID, "iron")) : WandMaterialManager.getCap(id);
+		return id == null ? WandMaterialManager.getCap(as("iron")) : WandMaterialManager.getCap(id);
 	}
 
 	public static WandCore getCore(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "core");
-		return id == null ? WandMaterialManager.getCore(new ResourceLocation(BookOfAssortedSpells.MOD_ID, "oak_planks")) : WandMaterialManager.getCore(id);
+		return id == null ? WandMaterialManager.getCore(as("oak_planks")) : WandMaterialManager.getCore(id);
 	}
 
 	@Nullable

@@ -1,12 +1,13 @@
 package com.red_x_tornado.assortedspells.util;
 
+import static com.red_x_tornado.assortedspells.util.ResourceLocations.as;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
 import net.minecraft.block.AbstractButtonBlock;
@@ -40,7 +41,7 @@ public abstract class Spell {
 	/**
 	 * A spell that places a chicken where you're looking.
 	 */
-	public static final Spell SUMMON_KFC = new Spell(SpellClass.SUPPORT, SpellType.ARCANE, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, builtin("summon_kfc"), ISpellCaster.DELAYED) {
+	public static final Spell SUMMON_KFC = new Spell(SpellClass.SUPPORT, SpellType.ARCANE, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, as("summon_kfc"), ISpellCaster.DELAYED) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
 			final ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN, caps.getPlayer().world);
@@ -56,7 +57,7 @@ public abstract class Spell {
 	/**
 	 * A spell that strikes the thing you're looking at with lightning.
 	 */
-	public static final Spell LIGHTNING = new Spell(SpellClass.ATTACK, SpellType.EARTH, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, builtin("lightning"), ISpellCaster.INSTANT) {
+	public static final Spell LIGHTNING = new Spell(SpellClass.ATTACK, SpellType.EARTH, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, as("lightning"), ISpellCaster.INSTANT) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
 			final LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(caps.getPlayer().world);
@@ -69,7 +70,7 @@ public abstract class Spell {
 		}
 	};
 
-	public static final Spell FREEZE = new Spell(SpellClass.ATTACK, SpellType.WATER, SpellDifficulty.SIMPLE, 5 * 20, 5 * 30, 30, builtin("freeze"), ISpellCaster.INSTANT) {
+	public static final Spell FREEZE = new Spell(SpellClass.ATTACK, SpellType.WATER, SpellDifficulty.SIMPLE, 5 * 20, 5 * 30, 30, as("freeze"), ISpellCaster.INSTANT) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
 			if (ctx.getTargetEntity() instanceof LivingEntity)
@@ -81,7 +82,7 @@ public abstract class Spell {
 		}
 	};
 
-	public static final Spell POWER_REDSTONE = new Spell(SpellClass.UTILITY, SpellType.COSMIC, SpellDifficulty.COMPLICATED, 20, 2 * 20, 30, builtin("power_redstone"), ISpellCaster.DELAYED) {
+	public static final Spell POWER_REDSTONE = new Spell(SpellClass.UTILITY, SpellType.COSMIC, SpellDifficulty.COMPLICATED, 20, 2 * 20, 30, as("power_redstone"), ISpellCaster.DELAYED) {
 		@SuppressWarnings("deprecation")
 		@Override
 		public void cast(SpellCapability caps, CastContext ctx) {
@@ -103,7 +104,7 @@ public abstract class Spell {
 		}
 	};
 
-	public static final Spell LAUNCH = new Spell(SpellClass.ATTACK, SpellType.AIR, SpellDifficulty.EASY, 5 * 20, 2 * 20, 30, builtin("launch"), ISpellCaster.DELAYED) {
+	public static final Spell LAUNCH = new Spell(SpellClass.ATTACK, SpellType.AIR, SpellDifficulty.EASY, 5 * 20, 2 * 20, 30, as("launch"), ISpellCaster.DELAYED) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
 			final int motion = 5;
@@ -152,10 +153,6 @@ public abstract class Spell {
 		this.caster = caster;
 		langKey = "spell." + id.getNamespace() + "." + id.getPath();
 		ALL_SPELLS.put(id, this);
-	}
-
-	private static ResourceLocation builtin(String path) {
-		return new ResourceLocation(BookOfAssortedSpells.MOD_ID, path);
 	}
 
 	@Nullable

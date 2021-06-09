@@ -15,7 +15,6 @@ import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager.WandCap;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager.WandRod;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.model.BlockModel;
 import net.minecraft.client.renderer.model.IBakedModel;
 import net.minecraft.client.renderer.model.IModelTransform;
