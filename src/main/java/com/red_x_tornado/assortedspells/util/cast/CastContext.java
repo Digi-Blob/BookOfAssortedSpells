@@ -1,6 +1,8 @@
-package com.red_x_tornado.assortedspells.util;
+package com.red_x_tornado.assortedspells.util.cast;
 
 import javax.annotation.Nullable;
+
+import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;

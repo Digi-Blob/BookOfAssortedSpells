@@ -1,4 +1,4 @@
-package com.red_x_tornado.assortedspells.util;
+package com.red_x_tornado.assortedspells.util.spell;
 
 import static com.red_x_tornado.assortedspells.util.ResourceLocations.as;
 
@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
+import com.red_x_tornado.assortedspells.util.cast.CastContext;
+import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 
 import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.BlockState;

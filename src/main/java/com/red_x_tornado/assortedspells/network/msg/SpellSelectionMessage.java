@@ -3,7 +3,7 @@ package com.red_x_tornado.assortedspells.network.msg;
 import java.util.function.Supplier;
 
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
-import com.red_x_tornado.assortedspells.util.Spell;
+import com.red_x_tornado.assortedspells.util.spell.Spell;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;

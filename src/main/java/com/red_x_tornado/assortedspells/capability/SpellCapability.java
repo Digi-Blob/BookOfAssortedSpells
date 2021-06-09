@@ -9,10 +9,10 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-import com.red_x_tornado.assortedspells.util.CastContext;
-import com.red_x_tornado.assortedspells.util.ISpellCaster;
-import com.red_x_tornado.assortedspells.util.Spell;
-import com.red_x_tornado.assortedspells.util.SpellInstance;
+import com.red_x_tornado.assortedspells.util.cast.CastContext;
+import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
+import com.red_x_tornado.assortedspells.util.spell.Spell;
+import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

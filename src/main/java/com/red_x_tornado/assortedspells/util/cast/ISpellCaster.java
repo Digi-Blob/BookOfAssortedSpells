@@ -1,4 +1,4 @@
-package com.red_x_tornado.assortedspells.util;
+package com.red_x_tornado.assortedspells.util.cast;
 
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 

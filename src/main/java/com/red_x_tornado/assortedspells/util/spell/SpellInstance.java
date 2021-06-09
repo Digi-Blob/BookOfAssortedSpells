@@ -1,6 +1,7 @@
-package com.red_x_tornado.assortedspells.util;
+package com.red_x_tornado.assortedspells.util.spell;
 
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
+import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;

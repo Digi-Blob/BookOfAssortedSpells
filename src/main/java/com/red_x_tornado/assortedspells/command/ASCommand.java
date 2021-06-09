@@ -7,8 +7,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.network.msg.SpellSyncMessage;
-import com.red_x_tornado.assortedspells.util.Spell;
-import com.red_x_tornado.assortedspells.util.SpellInstance;
+import com.red_x_tornado.assortedspells.util.spell.Spell;
+import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.arguments.ResourceLocationArgument;

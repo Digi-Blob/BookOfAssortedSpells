@@ -6,7 +6,7 @@ import com.red_x_tornado.assortedspells.client.model.WandLoader;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
-import com.red_x_tornado.assortedspells.util.SpellInstance;
+import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
