@@ -29,6 +29,12 @@
   "spell.assortedspells.power_redstone": "Redstone Power!",
   "spell.assortedspells.launch": "Launch",
 
+  "assortedspells.wand_cap.iron": "Iron Cap",
+  "assortedspells.wand_cap.gold": "Gold Cap",
+  "assortedspells.wand_rod.oak": "Oak Rod",
+  "assortedspells.wand_rod.diamond": "Diamond Rod",
+  "assortedspells.wand_core.oak_planks": "Oak Plank Core",
+
   "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",
 
