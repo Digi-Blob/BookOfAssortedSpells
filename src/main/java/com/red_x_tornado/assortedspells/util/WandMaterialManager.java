@@ -20,7 +20,7 @@ public class WandMaterialManager {
 		register(new WandCap(mc("block/gold_block"), builtin("gold")));
 		register(new WandRod(mc("block/oak_log"), builtin("oak")));
 		register(new WandRod(mc("block/diamond_block"), builtin("diamond")));
-		register(new WandCore(mc("block/oak_planks"), builtin("oak_planks")));
+		register(new WandCore(builtin("oak_planks")));
 	}
 
 	private static ResourceLocation mc(String path) {
@@ -60,19 +60,13 @@ public class WandMaterialManager {
 
 	public static class WandMaterial {
 
-		private final ResourceLocation texture;
 		private final ResourceLocation id;
 
 		private final String langKey;
 
-		protected WandMaterial(ResourceLocation texture, ResourceLocation id, String type) {
-			this.texture = texture;
+		protected WandMaterial(ResourceLocation id, String type) {
 			this.id = id;
 			langKey = id.getNamespace() + "." + type + "." + id.getPath();
-		}
-
-		public ResourceLocation getTexture() {
-			return texture;
 		}
 
 		public ResourceLocation getId() {
@@ -84,14 +78,28 @@ public class WandMaterialManager {
 		}
 	}
 
-	public static class WandCap extends WandMaterial {
+	public static class TexturedWandMaterial extends WandMaterial {
+
+		private final ResourceLocation texture;
+
+		protected TexturedWandMaterial(ResourceLocation texture, ResourceLocation id, String type) {
+			super(id, type);
+			this.texture = texture;
+		}
+
+		public ResourceLocation getTexture() {
+			return texture;
+		}
+	}
+
+	public static class WandCap extends TexturedWandMaterial {
 
 		public WandCap(ResourceLocation texture, ResourceLocation id) {
 			super(texture, id, "wand_cap");
 		}
 	}
 
-	public static class WandRod extends WandMaterial {
+	public static class WandRod extends TexturedWandMaterial {
 
 		public WandRod(ResourceLocation texture, ResourceLocation id) {
 			super(texture, id, "wand_rod");
@@ -100,8 +108,8 @@ public class WandMaterialManager {
 
 	public static class WandCore extends WandMaterial {
 
-		public WandCore(ResourceLocation texture, ResourceLocation id) {
-			super(texture, id, "wand_core");
+		public WandCore(ResourceLocation id) {
+			super(id, "wand_core");
 		}
 	}
 }
