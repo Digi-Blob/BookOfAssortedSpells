@@ -1,7 +1,5 @@
 package com.red_x_tornado.assortedspells.util.spell;
 
-import static com.red_x_tornado.assortedspells.util.ResourceLocations.as;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -12,26 +10,8 @@ import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.util.cast.CastContext;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 
-import net.minecraft.block.AbstractButtonBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeverBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.particles.RedstoneParticleData;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 
 /**
  * Contains all the functionality and attributes regarding spells.
@@ -39,88 +19,6 @@ import net.minecraft.world.World;
 public abstract class Spell {
 
 	private static final Map<ResourceLocation,Spell> ALL_SPELLS = new HashMap<>();
-
-	/**
-	 * A spell that places a chicken where you're looking.
-	 */
-	public static final Spell SUMMON_KFC = new Spell(SpellClass.SUPPORT, SpellType.ARCANE, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, as("summon_kfc"), ISpellCaster.DELAYED) {
-		@Override
-		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			final ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN, caps.getPlayer().world);
-			chicken.setPositionAndRotation(ctx.getTarget().x, ctx.getTarget().y, ctx.getTarget().z, 0, 0);
-			caps.getPlayer().world.addEntity(chicken);
-		}
-		@Override
-		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
-			caps.getPlayer().world.addParticle(new RedstoneParticleData(1F, 1F, 1F, 1F), pos.x, pos.y, pos.z, 0, 0, 0);
-		}
-	};
-
-	/**
-	 * A spell that strikes the thing you're looking at with lightning.
-	 */
-	public static final Spell LIGHTNING = new Spell(SpellClass.ATTACK, SpellType.EARTH, SpellDifficulty.SIMPLE, 3 * 20, 5 * 30, 30, as("lightning"), ISpellCaster.INSTANT) {
-		@Override
-		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			final LightningBoltEntity lightning = EntityType.LIGHTNING_BOLT.create(caps.getPlayer().world);
-			lightning.moveForced(ctx.getTarget());
-			caps.getPlayer().world.addEntity(lightning);
-		}
-		@Override
-		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
-			caps.getPlayer().world.addParticle(ParticleTypes.FIREWORK, pos.x, pos.y, pos.z, 0, 0, 0);
-		}
-	};
-
-	public static final Spell FREEZE = new Spell(SpellClass.ATTACK, SpellType.WATER, SpellDifficulty.SIMPLE, 5 * 20, 5 * 30, 30, as("freeze"), ISpellCaster.INSTANT) {
-		@Override
-		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			if (ctx.getTargetEntity() instanceof LivingEntity)
-				((LivingEntity) ctx.getTargetEntity()).addPotionEffect(new EffectInstance(Effects.SLOWNESS, 5 * 20, 100, false, false, true));
-		}
-		@Override
-		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
-			caps.getPlayer().world.addParticle(ParticleTypes.WHITE_ASH, pos.x, pos.y, pos.z, 0, 0, 0);
-		}
-	};
-
-	public static final Spell POWER_REDSTONE = new Spell(SpellClass.UTILITY, SpellType.COSMIC, SpellDifficulty.COMPLICATED, 20, 2 * 20, 30, as("power_redstone"), ISpellCaster.DELAYED) {
-		@SuppressWarnings("deprecation")
-		@Override
-		public void cast(SpellCapability caps, CastContext ctx) {
-			final World world = caps.getPlayer().getEntityWorld();
-			final BlockPos target = new BlockPos(ctx.getTarget());
-			final BlockState state = world.getBlockState(target);
-			if (state.hasProperty(BlockStateProperties.POWERED) && (state.getBlock() instanceof LeverBlock || state.getBlock() instanceof AbstractButtonBlock))
-				state.getBlock().onBlockActivated(state, world, target, caps.getPlayer(), Hand.MAIN_HAND, new BlockRayTraceResult(ctx.getTarget(), Direction.UP, target, false));
-		}
-		@Override
-		protected void serverCast(SpellCapability caps, CastContext ctx) {}
-		@Override
-		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
-			caps.getPlayer().world.addParticle(new RedstoneParticleData(1F, 0F, 0F, 1F), pos.x, pos.y, pos.z, 0, 0, 0);
-		}
-		@Override
-		public boolean prefersEntities() {
-			return false;
-		}
-	};
-
-	public static final Spell LAUNCH = new Spell(SpellClass.ATTACK, SpellType.AIR, SpellDifficulty.EASY, 5 * 20, 2 * 20, 30, as("launch"), ISpellCaster.DELAYED) {
-		@Override
-		protected void serverCast(SpellCapability caps, CastContext ctx) {
-			final int motion = 5;
-			final Entity e = ctx.getTargetEntity();
-			if (e instanceof LivingEntity) {
-				final Vector3d dir = ctx.getDirection();
-				e.setMotion(e.getMotion().add(dir.x * motion, 2 + dir.y * motion, dir.z * motion));
-			}
-		}
-		@Override
-		public void doBeamEffects(SpellCapability caps, CastContext ctx, Vector3d pos) {
-			caps.getPlayer().world.addParticle(ParticleTypes.END_ROD, pos.x, pos.y, pos.z, 0, 0, 0);
-		}
-	};
 
 	private final SpellClass clazz;
 	private final SpellType type;
