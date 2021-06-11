@@ -99,10 +99,13 @@ public class SpellCapability {
 		final int distance = spell.getSpell().getMaxDistance();
 		final Vector3d start = player.getEyePosition(0F);
 		final Vector3d look = player.getLook(0F);
-		final Vector3d end = new Vector3d(start.x + look.x * distance, start.y + look.y * distance, start.z + look.z * distance);
+		Vector3d end = new Vector3d(start.x + look.x * distance, start.y + look.y * distance, start.z + look.z * distance);
+
+		final RayTraceResult ray = player.pick(distance, 0F, false);
+		final double maxDist = ray.getHitVec().distanceTo(start);
+		end = new Vector3d(start.x + look.x * maxDist, start.y + look.y * maxDist, start.z + look.z * maxDist);
 
 		final EntityRayTraceResult entityRay = spell.getSpell().prefersEntities() ? ProjectileHelper.rayTraceEntities(player.world, player, start, end, new AxisAlignedBB(start, end), null) : null;
-		final RayTraceResult ray = entityRay != null ? entityRay : player.pick(distance, 0F, false);
 
 		final Entity targetEntity = entityRay == null ? null : entityRay.getEntity();
 
@@ -110,8 +113,8 @@ public class SpellCapability {
 
 		if (targetEntity != null) {
 			// We need to correct the ending position's height so that it doesn't always end at the entity's feet.
-			final double newDist = player.getPositionVec().distanceTo(targetEntity.getPositionVec());
-			hit = new Vector3d(ray.getHitVec().x, start.y + look.y * newDist, ray.getHitVec().z);
+			final Vector3d newHit = targetEntity.getBoundingBox().rayTrace(start, end).orElse(null);
+			hit = newHit == null ? entityRay.getHitVec() : newHit;
 		} else hit = ray.getHitVec();
 
 		final CastContext ctx = new CastContext(spell, start, hit, look, targetEntity);

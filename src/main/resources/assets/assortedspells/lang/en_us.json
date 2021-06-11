@@ -11,7 +11,7 @@
   "item.assortedspells.coal_wand_core": "Coal Wand Core",
 
   "block.assortedspells.runestone": "Runestone",
-  "block.assortedspells.wand_builder": "Wand Real Estate™",
+  "block.assortedspells.wand_builder": "Wand Station",
 
   "assortedspells.class.support": "Support",
   "assortedspells.class.utility": "Utility",
@@ -55,8 +55,6 @@
   "assortedspells.command.quickspell.success": "Set quickspell %s to %s.",
 
   "assortedspells.message.nospells": "You don't have any selected spells.",
-
-  "assortedspells.wand_builder.name": "Wand Real Estate™",
 
   "itemGroup.assortedspells": "Book of Assorted Spells"
 }
