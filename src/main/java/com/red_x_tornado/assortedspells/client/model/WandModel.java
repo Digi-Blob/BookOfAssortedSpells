@@ -70,7 +70,10 @@ public class WandModel extends BlockModel implements IModelGeometry<WandModel> {
 				final WandRod rod = WandItem.getRod(stack);
 				final WandCap bottomCap = WandItem.getBottomCap(stack);
 
-				final WandModelKey key = new WandModelKey(topCap.getTexture(), rod.getTexture(), bottomCap.getTexture());
+				final WandModelKey key = new WandModelKey(
+						topCap.getTexture(),
+						rod.getTexture(),
+						bottomCap.getTexture());
 
 				return WAND_MODEL_CACHE.computeIfAbsent(key, k -> {
 					textures.put("cap1", Either.left(new RenderMaterial(AtlasTexture.LOCATION_BLOCKS_TEXTURE, topCap.getTexture())));

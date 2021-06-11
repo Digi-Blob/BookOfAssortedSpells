@@ -1,6 +1,15 @@
 {
   "item.assortedspells.wand": "Wand",
   "item.assortedspells.tome": "Tome",
+
+  "item.assortedspells.iron_wand_cap": "Iron Wand Cap",
+  "item.assortedspells.stone_wand_cap": "Stone Wand Cap",
+  "item.assortedspells.gold_wand_cap": "Gold Wand Cap",
+  "item.assortedspells.oak_wand_rod": "Oak Wand Rod",
+  "item.assortedspells.bamboo_wand_rod": "Bamboo Wand Rod",
+  "item.assortedspells.magma_wand_core": "Magma Wand Core",
+  "item.assortedspells.coal_wand_core": "Coal Wand Core",
+
   "block.assortedspells.runestone": "Runestone",
   "block.assortedspells.wand_builder": "Wand Real Estate™",
 
@@ -32,9 +41,11 @@
 
   "assortedspells.wand_cap.iron": "Iron Cap",
   "assortedspells.wand_cap.gold": "Gold Cap",
+  "assortedspells.wand_cap.stone": "Stone Cap",
   "assortedspells.wand_rod.oak": "Oak Rod",
-  "assortedspells.wand_rod.diamond": "Diamond Rod",
-  "assortedspells.wand_core.oak_planks": "Oak Plank Core",
+  "assortedspells.wand_rod.bamboo": "Bamboo Rod",
+  "assortedspells.wand_core.magma": "Magma Core",
+  "assortedspells.wand_core.coal": "Coal Core",
 
   "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",

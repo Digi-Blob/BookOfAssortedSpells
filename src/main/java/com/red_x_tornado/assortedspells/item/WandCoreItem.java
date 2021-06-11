@@ -7,11 +7,12 @@ import com.red_x_tornado.assortedspells.util.WandMaterialManager.WandCore;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class WandCoreItem implements IWandCoreItem {
+public class WandCoreItem extends Item implements IWandCoreItem {
 
 	private final Supplier<WandCore> core;
 
 	public WandCoreItem(Item.Properties props, Supplier<WandCore> core) {
+		super(props);
 		this.core = core;
 	}
 

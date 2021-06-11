@@ -37,22 +37,34 @@ public class WandItem extends Item {
 
 	public static WandCap getTopCap(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "topCap");
-		return id == null ? WandMaterialManager.getCap(as("iron")) : WandMaterialManager.getCap(id);
+		if (id == null) return WandMaterialManager.IRON_CAP;
+		final WandCap cap = WandMaterialManager.getCap(id);
+		if (cap == null) return WandMaterialManager.IRON_CAP;
+		return cap;
 	}
 
 	public static WandRod getRod(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "rod");
-		return id == null ? WandMaterialManager.getRod(as("oak")) : WandMaterialManager.getRod(id);
+		if (id == null) return WandMaterialManager.OAK_ROD;
+		final WandRod rod = WandMaterialManager.getRod(id);
+		if (rod == null) return WandMaterialManager.OAK_ROD;
+		return rod;
 	}
 
 	public static WandCap getBottomCap(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "bottomCap");
-		return id == null ? WandMaterialManager.getCap(as("iron")) : WandMaterialManager.getCap(id);
+		if (id == null) return WandMaterialManager.IRON_CAP;
+		final WandCap cap = WandMaterialManager.getCap(id);
+		if (cap == null) return WandMaterialManager.IRON_CAP;
+		return cap;
 	}
 
 	public static WandCore getCore(ItemStack stack) {
 		final ResourceLocation id = maybeGet(stack, "core");
-		return id == null ? WandMaterialManager.getCore(as("oak_planks")) : WandMaterialManager.getCore(id);
+		if (id == null) return WandMaterialManager.COAL_CORE;
+		final WandCore core = WandMaterialManager.getCore(id);
+		if (core == null) return WandMaterialManager.COAL_CORE;
+		return core;
 	}
 
 	@Nullable
