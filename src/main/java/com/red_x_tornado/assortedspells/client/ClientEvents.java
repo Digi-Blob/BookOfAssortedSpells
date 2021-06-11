@@ -2,13 +2,16 @@ package com.red_x_tornado.assortedspells.client;
 
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
+import com.red_x_tornado.assortedspells.client.gui.WandBuilderScreen;
 import com.red_x_tornado.assortedspells.client.model.WandLoader;
+import com.red_x_tornado.assortedspells.init.ASContainers;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -20,6 +23,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientEvents {
 
@@ -76,6 +80,10 @@ public class ClientEvents {
 
 	@EventBusSubscriber(modid = BookOfAssortedSpells.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 	public static class Mod {
+		@SubscribeEvent
+		public static void onClientSetup(FMLClientSetupEvent event) {
+			ScreenManager.registerFactory(ASContainers.WAND_BUILDER.get(), WandBuilderScreen::new);
+		}
 		@SubscribeEvent
 		public static void registerLoaders(ModelRegistryEvent event) {
 			ModelLoaderRegistry.registerLoader(new ResourceLocation(BookOfAssortedSpells.MOD_ID, "wand"), WandLoader.INSTANCE);

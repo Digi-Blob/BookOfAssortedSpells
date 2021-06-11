@@ -1,5 +1,7 @@
 package com.red_x_tornado.assortedspells.util.spell;
 
+import java.util.Objects;
+
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 
@@ -24,6 +26,7 @@ public class SpellInstance {
 	private int duration;
 
 	public SpellInstance(Spell spell) {
+		Objects.requireNonNull(spell, "Spell cannot be null!");
 		this.spell = spell;
 		duration = spell.getBaseDuration();
 		maxCooldown = spell.getBaseCooldown();
@@ -153,7 +156,9 @@ public class SpellInstance {
 
 	public static SpellInstance fromNBT(CompoundNBT nbt) {
 		final ResourceLocation id = new ResourceLocation(nbt.getString("spell"));
-		final SpellInstance instance = new SpellInstance(Spell.find(id));
+		final Spell spell = Spell.find(id);
+		if (spell == null) throw new IllegalArgumentException("Failed to find spell with id " + id + "!");
+		final SpellInstance instance = new SpellInstance(spell);
 
 		instance.setLevel(nbt.getInt("level"));
 		instance.setMaxCasts(nbt.getInt("maxCasts"));

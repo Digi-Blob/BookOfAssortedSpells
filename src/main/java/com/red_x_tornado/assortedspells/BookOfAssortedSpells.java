@@ -8,11 +8,13 @@ import com.red_x_tornado.assortedspells.capability.SpellCapabilityProvider;
 import com.red_x_tornado.assortedspells.capability.SpellCapabilityStorage;
 import com.red_x_tornado.assortedspells.command.ASCommand;
 import com.red_x_tornado.assortedspells.init.ASBlocks;
+import com.red_x_tornado.assortedspells.init.ASContainers;
 import com.red_x_tornado.assortedspells.init.ASEntities;
 import com.red_x_tornado.assortedspells.init.ASItems;
 import com.red_x_tornado.assortedspells.init.ASTileEntities;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSyncMessage;
+import com.red_x_tornado.assortedspells.util.spell.Spells;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -57,10 +59,13 @@ public class BookOfAssortedSpells {
 		ASEntities.REGISTRY.register(modBus);
 		ASItems.REGISTRY.register(modBus);
 		ASTileEntities.REGISTRY.register(modBus);
+		ASContainers.REGISTRY.register(modBus);
 
 		ASBlocks.registerItemBlocks();
 
 		modBus.addListener(this::onCommonSetup);
+
+		Spells.FREEZE.getClazz(); // Classload Spells.
 	}
 
 	void onCommonSetup(FMLCommonSetupEvent event) {
