@@ -3,6 +3,7 @@ package com.red_x_tornado.assortedspells.network;
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
 import com.red_x_tornado.assortedspells.network.msg.SpellSyncMessage;
+import com.red_x_tornado.assortedspells.network.msg.WandBuilderMaterialMessage;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -25,6 +26,7 @@ public class ASNetworkManager {
 		int id = 0;
 		CHANNEL.registerMessage(id++, SpellSelectionMessage.class, SpellSelectionMessage::encode, SpellSelectionMessage::decode, SpellSelectionMessage::handle);
 		CHANNEL.registerMessage(id++, SpellSyncMessage.class, SpellSyncMessage::encode, SpellSyncMessage::decode, SpellSyncMessage::handle);
+		CHANNEL.registerMessage(id++, WandBuilderMaterialMessage.class, WandBuilderMaterialMessage::encode, WandBuilderMaterialMessage::decode, WandBuilderMaterialMessage::handle);
 	}
 
 	public static SimpleChannel get() {

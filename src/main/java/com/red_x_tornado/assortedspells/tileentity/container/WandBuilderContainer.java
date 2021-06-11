@@ -1,18 +1,20 @@
 package com.red_x_tornado.assortedspells.tileentity.container;
 
-import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.init.ASContainers;
 import com.red_x_tornado.assortedspells.init.ASItems;
 import com.red_x_tornado.assortedspells.item.IWandCapItem;
 import com.red_x_tornado.assortedspells.item.IWandCoreItem;
 import com.red_x_tornado.assortedspells.item.IWandRodItem;
+import com.red_x_tornado.assortedspells.network.ASNetworkManager;
+import com.red_x_tornado.assortedspells.network.msg.WandBuilderMaterialMessage;
+import com.red_x_tornado.assortedspells.util.WandRecipeManager;
+import com.red_x_tornado.assortedspells.util.WandRecipeManager.CachingRecipeMatcher;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -22,7 +24,7 @@ public class WandBuilderContainer extends Container {
 	private final IInventory wandBuilderInv;
 	private final PlayerInventory playerInv;
 	public boolean showingPartTab = false;
-	public int selectedPart = 0;
+	public byte selectedPart = 0;
 
 	protected Slot topCap;
 	protected Slot rod;
@@ -32,6 +34,10 @@ public class WandBuilderContainer extends Container {
 
 	protected Slot material;
 	protected Slot materialOut;
+
+	protected final CachingRecipeMatcher caps = new CachingRecipeMatcher(WandRecipeManager.getCapRecipes());
+	protected final CachingRecipeMatcher rods = new CachingRecipeMatcher(WandRecipeManager.getRodRecipes());
+	protected final CachingRecipeMatcher cores = new CachingRecipeMatcher(WandRecipeManager.getCoreRecipes());
 
 	public WandBuilderContainer(int id, PlayerInventory playerInv, IInventory inv) {
 		super(ASContainers.WAND_BUILDER.get(), id);
@@ -194,19 +200,51 @@ public class WandBuilderContainer extends Container {
 		wandOut.putStack(ItemStack.EMPTY);
 	}
 
+	public void setSelectedPart(byte value) {
+		selectedPart = value;
+		onMaterialSlotChange(); // It didn't really, but this is the best way to reuse logic.
+		if (playerInv.player.world.isRemote)
+			ASNetworkManager.get().sendToServer(new WandBuilderMaterialMessage(value));
+	}
+
 	protected void onMaterialSlotChange() {
-		
+		final ItemStack material = this.material.getStack();
+
+		if (!material.isEmpty()) {
+			final WandRecipeManager.IWandMaterialRecipe recipe;
+
+			if (selectedPart == 0) // Rod
+				recipe = rods.findMatching(material);
+			else if (selectedPart == 1) // Core
+				recipe = cores.findMatching(material);
+			else if (selectedPart == 2) // Cap
+				recipe = caps.findMatching(material);
+			else recipe = null;
+
+			if (recipe != null) {
+				final ItemStack stack = recipe.craft(material);
+				materialOut.putStack(stack);
+				return;
+			}
+		}
+
+		materialOut.putStack(ItemStack.EMPTY);
 	}
 
 	protected void onTakeWand(ItemStack wand) {
-		topCap.putStack(ItemStack.EMPTY);
-		rod.putStack(ItemStack.EMPTY);
-		core.putStack(ItemStack.EMPTY);
-		bottomCap.putStack(ItemStack.EMPTY);
+		topCap.decrStackSize(1);
+		rod.decrStackSize(1);
+		core.decrStackSize(1);
+		bottomCap.decrStackSize(1);
+		topCap.onSlotChanged();
+		rod.onSlotChanged();
+		core.onSlotChanged();
+		bottomCap.onSlotChanged();
 	}
 
 	protected void onTakeWandMaterial(ItemStack mat) {
-		
+		material.decrStackSize(1);
+		material.onSlotChanged();
 	}
 
 	@Override

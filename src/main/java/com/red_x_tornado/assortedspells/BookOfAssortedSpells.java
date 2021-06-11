@@ -14,6 +14,7 @@ import com.red_x_tornado.assortedspells.init.ASItems;
 import com.red_x_tornado.assortedspells.init.ASTileEntities;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSyncMessage;
+import com.red_x_tornado.assortedspells.util.WandRecipeManager;
 import com.red_x_tornado.assortedspells.util.spell.Spells;
 
 import net.minecraft.entity.Entity;
@@ -75,6 +76,7 @@ public class BookOfAssortedSpells {
 				});
 
 		ASNetworkManager.init();
+		WandRecipeManager.registerBuiltins();
 	}
 
 	@EventBusSubscriber(modid = MOD_ID, bus = EventBusSubscriber.Bus.FORGE)

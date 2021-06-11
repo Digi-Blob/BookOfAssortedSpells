@@ -36,9 +36,8 @@ public class WandBuilderScreen extends ContainerScreen<WandBuilderContainer> {
 		if (container.showingPartTab) {
 			blit(matrixStack, guiLeft, guiTop, 0, 170, 176, 86, 256, 256);
 			drawPartTabSlots(matrixStack);
-		} else {
+		} else
 			blit(matrixStack, guiLeft, guiTop, 0, 0, 176, 86, 256, 256);
-		}
 
 		drawTabs(matrixStack);
 	}
@@ -69,8 +68,8 @@ public class WandBuilderScreen extends ContainerScreen<WandBuilderContainer> {
 		super.mouseClicked(mouseX, mouseY, button);
 
 		//if (button == 1)
-			if (!switchTabs(mouseX, mouseY) && container.showingPartTab)
-				switchParts(mouseX, mouseY);
+		if (!switchTabs(mouseX, mouseY) && container.showingPartTab)
+			switchParts(mouseX, mouseY);
 
 		return true;
 	}
@@ -82,12 +81,10 @@ public class WandBuilderScreen extends ContainerScreen<WandBuilderContainer> {
 				playClickSound();
 				return true;
 			}
-		} else {
-			if (mouseX > guiLeft - 30 && mouseX < guiLeft && mouseY > guiTop + 10 && mouseY < guiTop + 36) {
-				container.showingPartTab = false;
-				playClickSound();
-				return true;
-			}
+		} else if (mouseX > guiLeft - 30 && mouseX < guiLeft && mouseY > guiTop + 10 && mouseY < guiTop + 36) {
+			container.showingPartTab = false;
+			playClickSound();
+			return true;
 		}
 
 		return false;
@@ -97,19 +94,19 @@ public class WandBuilderScreen extends ContainerScreen<WandBuilderContainer> {
 		final int sel = container.selectedPart;
 
 		if (sel != 0 && mouseX >= guiLeft + 50 && mouseX <= guiLeft + 69 && mouseY >= guiTop + 15 && mouseY <= guiTop + 34) {
-			container.selectedPart = 0;
+			container.setSelectedPart((byte) 0);
 			playClickSound();
 			return true;
 		}
 
 		if (sel != 1 && mouseX >= guiLeft + 73 && mouseX <= guiLeft + 92 && mouseY >= guiTop + 15 && mouseY <= guiTop + 34) {
-			container.selectedPart = 1;
+			container.setSelectedPart((byte) 1);
 			playClickSound();
 			return true;
 		}
 
 		if (sel != 2 && mouseX >= guiLeft + 96 && mouseX <= guiLeft + 115 && mouseY >= guiTop + 15 && mouseY <= guiTop + 34) {
-			container.selectedPart = 2;
+			container.setSelectedPart((byte) 2);
 			playClickSound();
 			return true;
 		}

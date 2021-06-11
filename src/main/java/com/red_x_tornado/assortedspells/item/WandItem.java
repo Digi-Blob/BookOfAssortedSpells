@@ -1,7 +1,5 @@
 package com.red_x_tornado.assortedspells.item;
 
-import static com.red_x_tornado.assortedspells.util.ResourceLocations.as;
-
 import java.util.List;
 
 import javax.annotation.Nullable;
