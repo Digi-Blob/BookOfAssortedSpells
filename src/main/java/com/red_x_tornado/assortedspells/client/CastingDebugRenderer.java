@@ -5,16 +5,21 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.item.WandItem;
+import com.red_x_tornado.assortedspells.util.cast.CastContext;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -67,6 +72,14 @@ public class CastingDebugRenderer {
 
 			// Render block hit.
 			renderBoundingBox(matrixStack, lines, end, 0F, 0F, 1F);
+
+			final ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN, player.world);
+			chicken.moveForced(end);
+
+			final Direction hitFace = ray instanceof BlockRayTraceResult ? ((BlockRayTraceResult) ray).getFace() : null;
+
+			final Vector3d corrected = CastContext.correct(chicken, end, hitFace);
+			renderBoundingBox(matrixStack, lines, corrected, 0F, 1F, 0F);
 
 			// Render entity trace bounds.
 			//WorldRenderer.drawBoundingBox(matrixStack, lines, new AxisAlignedBB(start, end), 1F, 0F, 0F, 1F);

@@ -21,7 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
@@ -108,6 +110,7 @@ public class SpellCapability {
 		final EntityRayTraceResult entityRay = spell.getSpell().prefersEntities() ? ProjectileHelper.rayTraceEntities(player.world, player, start, end, new AxisAlignedBB(start, end), null) : null;
 
 		final Entity targetEntity = entityRay == null ? null : entityRay.getEntity();
+		final Direction hitFace = ray instanceof BlockRayTraceResult ? ((BlockRayTraceResult) ray).getFace() : null;
 
 		final Vector3d hit;
 
@@ -117,7 +120,7 @@ public class SpellCapability {
 			hit = newHit == null ? entityRay.getHitVec() : newHit;
 		} else hit = ray.getHitVec();
 
-		final CastContext ctx = new CastContext(spell, start, hit, look, targetEntity);
+		final CastContext ctx = new CastContext(spell, start, hit, look, hitFace, targetEntity);
 
 		if (caster.begin(this, ctx))
 			casters.add(Pair.of(ctx, caster));

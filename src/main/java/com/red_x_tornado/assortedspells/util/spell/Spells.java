@@ -46,8 +46,7 @@ public final class Spells {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
 			final ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN, caps.getPlayer().world);
-			chicken.moveForced(ctx.getTarget());
-			caps.getPlayer().world.addEntity(chicken);
+			caps.getPlayer().world.addEntity(ctx.moveToTarget(chicken));
 		}
 	};
 
