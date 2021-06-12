@@ -32,6 +32,20 @@ public class WandMaterialManager {
 
 	public static final WandRod OAK_ROD = register(new WandRod(mc("block/oak_log"), as("oak"), ASItems.OAK_WAND_ROD));
 	public static final WandRod BAMBOO_ROD = register(new WandRod(mc("block/bamboo_stalk"), as("bamboo"), ASItems.BAMBOO_WAND_ROD));
+	public static final WandRod ACACIA_ROD = register(new WandRod(mc("block/stripped_acacia_log"), as("acacia"), ASItems.ACACIA_WAND_ROD));
+	public static final WandRod BASALT_ROD = register(new WandRod(mc("block/basalt_side"), as("basalt"), ASItems.BASALT_WAND_ROD));
+	public static final WandRod BIRCH_ROD = register(new WandRod(mc("block/stripped_birch_log"), as("birch"), ASItems.BIRCH_WAND_ROD));
+	public static final WandRod BLAZE_ROD = register(new WandRod(as("block/blaze"), as("blaze"), ASItems.BLAZE_WAND_ROD));
+	public static final WandRod BONE_ROD = register(new WandRod(mc("block/bone_block_side"), as("bone"), ASItems.BONE_WAND_ROD));
+	public static final WandRod CRIMSON_ROD = register(new WandRod(mc("block/stripped_crimson_stem"), as("crimson"), ASItems.CRIMSON_WAND_ROD));
+	public static final WandRod DARK_OAK_ROD = register(new WandRod(mc("block/stripped_dark_oak_log"), as("dark_oak"), ASItems.DARK_OAK_WAND_ROD));
+	public static final WandRod END_STONE_ROD = register(new WandRod(mc("block/end_stone"), as("end_stone"), ASItems.END_STONE_WAND_ROD));
+	public static final WandRod JUNGLE_ROD = register(new WandRod(mc("block/stripped_jungle_log"), as("jungle"), ASItems.JUNGLE_WAND_ROD));
+	public static final WandRod OBSIDIAN_ROD = register(new WandRod(mc("block/obsidian"), as("obsidian"), ASItems.OBSIDIAN_WAND_ROD));
+	public static final WandRod QUARTZ_ROD = register(new WandRod(mc("block/quartz_block_bottom"), as("quartz"), ASItems.QUARTZ_WAND_ROD));
+	public static final WandRod SANDSTONE_ROD = register(new WandRod(mc("block/sandstone_top"), as("sandstone"), ASItems.SANDSTONE_WAND_ROD));
+	public static final WandRod SPRUCE_ROD = register(new WandRod(mc("block/stripped_spruce_log"), as("spruce"), ASItems.SPRUCE_WAND_ROD));
+	public static final WandRod WARPED_ROD = register(new WandRod(mc("block/stripped_warped_stem"), as("warped"), ASItems.WARPED_WAND_ROD));
 
 	public static final WandCore MAGMA_CORE = register(new WandCore(as("magma"), ASItems.MAGMA_WAND_CORE));
 	public static final WandCore COAL_CORE = register(new WandCore(as("coal"), ASItems.COAL_WAND_CORE));
