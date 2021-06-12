@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "assortedspells:item/coal_wand_core"
+    "layer0": "assortedspells:item/cores/coal_wand_core"
   }
 }

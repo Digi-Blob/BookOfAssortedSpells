@@ -2,11 +2,20 @@
   "item.assortedspells.wand": "Wand",
   "item.assortedspells.tome": "Tome",
 
-  "item.assortedspells.iron_wand_cap": "Iron Wand Cap",
-  "item.assortedspells.stone_wand_cap": "Stone Wand Cap",
+  "item.assortedspells.brown_mushroom_wand_cap": "Brown Mushroom Wand Cap",
   "item.assortedspells.gold_wand_cap": "Gold Wand Cap",
+  "item.assortedspells.iron_wand_cap": "Iron Wand Cap",
+  "item.assortedspells.nether_brick_wand_cap": "Nether Brick Wand Cap",
+  "item.assortedspells.netherite_wand_cap": "Netherite Wand Cap",
+  "item.assortedspells.packed_ice_wand_cap": "Packed Ice Wand Cap",
+  "item.assortedspells.paper_wand_cap": "Paper Wand Cap",
+  "item.assortedspells.prismarine_wand_cap": "Prismarine Wand Cap",
+  "item.assortedspells.red_mushroom_wand_cap": "Red Mushroom Wand Cap",
+  "item.assortedspells.stone_wand_cap": "Stone Wand Cap",
+
   "item.assortedspells.oak_wand_rod": "Oak Wand Rod",
   "item.assortedspells.bamboo_wand_rod": "Bamboo Wand Rod",
+
   "item.assortedspells.magma_wand_core": "Magma Wand Core",
   "item.assortedspells.coal_wand_core": "Coal Wand Core",
 
@@ -39,11 +48,20 @@
   "spell.assortedspells.power_redstone": "Redstone Power!",
   "spell.assortedspells.launch": "Launch",
 
-  "assortedspells.wand_cap.iron": "Iron Cap",
+  "assortedspells.wand_cap.brown_mushroom": "Brown Mushroom Cap",
   "assortedspells.wand_cap.gold": "Gold Cap",
+  "assortedspells.wand_cap.iron": "Iron Cap",
+  "assortedspells.wand_cap.nether_brick": "Nether Brick Cap",
+  "assortedspells.wand_cap.netherite": "Netherite Cap",
+  "assortedspells.wand_cap.packed_ice": "Packed Ice Cap",
+  "assortedspells.wand_cap.paper": "Paper Cap",
+  "assortedspells.wand_cap.prismarine": "Prismarine Cap",
+  "assortedspells.wand_cap.red_mushroom": "Red Mushroom Cap",
   "assortedspells.wand_cap.stone": "Stone Cap",
+
   "assortedspells.wand_rod.oak": "Oak Rod",
   "assortedspells.wand_rod.bamboo": "Bamboo Rod",
+
   "assortedspells.wand_core.magma": "Magma Core",
   "assortedspells.wand_core.coal": "Coal Core",
 

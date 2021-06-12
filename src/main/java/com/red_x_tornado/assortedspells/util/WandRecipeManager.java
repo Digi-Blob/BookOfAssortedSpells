@@ -26,6 +26,13 @@ public class WandRecipeManager {
 		registerCapRecipe(new SimpleWandMaterialRecipe(as("gold_cap"), Items.GOLD_INGOT, new ItemStack(ASItems.GOLD_WAND_CAP.get())));
 		registerCapRecipe(new SimpleWandMaterialRecipe(as("iron_cap"), Items.IRON_INGOT, new ItemStack(ASItems.IRON_WAND_CAP.get())));
 		registerCapRecipe(new SimpleWandMaterialRecipe(as("stone_cap"), Items.STONE, new ItemStack(ASItems.STONE_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("brown_mushroom_cap"), Items.BROWN_MUSHROOM_BLOCK, new ItemStack(ASItems.BROWN_MUSHROOM_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("nether_brick_cap"), Items.NETHER_BRICKS, new ItemStack(ASItems.NETHER_BRICK_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("netherite_cap"), Items.NETHERITE_INGOT, new ItemStack(ASItems.NETHERITE_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("packed_ice_cap"), Items.PACKED_ICE, new ItemStack(ASItems.PACKED_ICE_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("paper_cap"), Items.PAPER, new ItemStack(ASItems.PAPER_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("prismarine_cap"), Items.PRISMARINE, new ItemStack(ASItems.PRISMARINE_WAND_CAP.get())));
+		registerCapRecipe(new SimpleWandMaterialRecipe(as("red_mushroom_cap"), Items.RED_MUSHROOM_BLOCK, new ItemStack(ASItems.RED_MUSHROOM_WAND_CAP.get())));
 
 		registerCoreRecipe(new SimpleWandMaterialRecipe(as("magma_core"), Items.MAGMA_BLOCK, new ItemStack(ASItems.MAGMA_WAND_CORE.get())));
 		registerCoreRecipe(new SimpleWandMaterialRecipe(as("coal_core"), Items.COAL, new ItemStack(ASItems.COAL_WAND_CORE.get())));

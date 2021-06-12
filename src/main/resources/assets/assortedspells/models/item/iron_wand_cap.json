@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "assortedspells:item/iron_wand_cap"
+    "layer0": "assortedspells:item/caps/iron_wand_cap"
   }
 }

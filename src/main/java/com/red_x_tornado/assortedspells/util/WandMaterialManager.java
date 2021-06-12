@@ -22,6 +22,13 @@ public class WandMaterialManager {
 	public static final WandCap IRON_CAP = register(new WandCap(mc("block/iron_block"), as("iron"), ASItems.IRON_WAND_CAP));
 	public static final WandCap STONE_CAP = register(new WandCap(mc("block/stone"), as("stone"), ASItems.STONE_WAND_CAP));
 	public static final WandCap GOLD_CAP = register(new WandCap(mc("block/gold_block"), as("gold"), ASItems.GOLD_WAND_CAP));
+	public static final WandCap BROWN_MUSHROOM_CAP = register(new WandCap(mc("block/brown_mushroom_block"), as("brown_mushroom"), ASItems.BROWN_MUSHROOM_WAND_CAP));
+	public static final WandCap NETHER_BRICK_CAP = register(new WandCap(mc("block/nether_bricks"), as("nether_brick"), ASItems.NETHER_BRICK_WAND_CAP));
+	public static final WandCap NETHERITE_CAP = register(new WandCap(mc("block/netherite_block"), as("netherite"), ASItems.NETHERITE_WAND_CAP));
+	public static final WandCap PACKED_ICE_CAP = register(new WandCap(mc("block/packed_ice"), as("packed_ice"), ASItems.PACKED_ICE_WAND_CAP));
+	public static final WandCap PAPER_CAP = register(new WandCap(as("block/paper"), as("paper"), ASItems.PAPER_WAND_CAP));
+	public static final WandCap PRISMARINE_CAP = register(new WandCap(mc("block/prismarine_bricks"), as("prismarine"), ASItems.PRISMARINE_WAND_CAP));
+	public static final WandCap RED_MUSHROOM_CAP = register(new WandCap(mc("block/red_mushroom_block"), as("red_mushroom"), ASItems.RED_MUSHROOM_WAND_CAP));
 
 	public static final WandRod OAK_ROD = register(new WandRod(mc("block/oak_log"), as("oak"), ASItems.OAK_WAND_ROD));
 	public static final WandRod BAMBOO_ROD = register(new WandRod(mc("block/bamboo_stalk"), as("bamboo"), ASItems.BAMBOO_WAND_ROD));

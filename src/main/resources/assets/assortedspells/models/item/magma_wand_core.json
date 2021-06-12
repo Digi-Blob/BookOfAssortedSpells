@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "assortedspells:item/magma_wand_core"
+    "layer0": "assortedspells:item/cores/magma_wand_core"
   }
 }

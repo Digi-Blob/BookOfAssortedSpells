@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "assortedspells:item/oak_wand_rod"
+    "layer0": "assortedspells:item/rods/oak_wand_rod"
   }
 }
