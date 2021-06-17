@@ -57,10 +57,15 @@
   "assortedspells.type.water": "Water",
 
   "spell.assortedspells.summon_kfc": "Summon KFC",
+  "spell.assortedspells.summon_kfc.desc": "Places some KFC where you're looking.",
   "spell.assortedspells.lightning": "Lightning",
+  "spell.assortedspells.lightning.desc": "Strike your foes down with lightning! Now at a discount.",
   "spell.assortedspells.freeze": "Freeze",
+  "spell.assortedspells.freeze.desc": "Now you too can paralyze your enemies.",
   "spell.assortedspells.power_redstone": "Redstone Power!",
+  "spell.assortedspells.power_redstone.desc": "Wireless redstone? In MY Minecraft? It's more likely than you think.",
   "spell.assortedspells.launch": "Launch",
+  "spell.assortedspells.launch.desc": "Not to be confused with: Lunch.",
 
   "assortedspells.wand_cap.brown_mushroom": "Brown Mushroom Cap",
   "assortedspells.wand_cap.gold": "Gold Cap",
@@ -101,6 +106,16 @@
   "assortedspells.command.quickspell.success": "Set quickspell %s to %s.",
 
   "assortedspells.message.nospells": "You don't have any selected spells.",
+
+  "assortedspells.gui.spell.class": "Class: %s",
+  "assortedspells.gui.spell.type": "Type: %s",
+  "assortedspells.gui.spell.casting_style": "Casting Style: %s",
+  "assortedspells.gui.spell.casting_style.delayed": "Delayed",
+  "assortedspells.gui.spell.casting_style.instant": "Instant",
+  "assortedspells.gui.spell.difficulty": "Difficulty: %s",
+  "assortedspells.gui.spell.cooldown": "Cooldown: %s",
+  "assortedspells.gui.spell.duration": "Duration: %s",
+  "assortedspells.gui.spell.max_casts": "Max Casts: %s",
 
   "itemGroup.assortedspells": "Book of Assorted Spells"
 }

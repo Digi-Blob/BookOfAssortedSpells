@@ -1,8 +1,8 @@
 package com.red_x_tornado.assortedspells.util.spell;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import javax.annotation.Nullable;
 
@@ -16,9 +16,9 @@ import net.minecraft.util.math.vector.Vector3d;
 /**
  * Contains all the functionality and attributes regarding spells.
  */
-public abstract class Spell {
+public abstract class Spell implements Comparable<Spell> {
 
-	private static final Map<ResourceLocation,Spell> ALL_SPELLS = new HashMap<>();
+	private static final Map<ResourceLocation,Spell> ALL_SPELLS = new TreeMap<>();
 
 	private final SpellClass clazz;
 	private final SpellType type;
@@ -145,5 +145,22 @@ public abstract class Spell {
 
 	public String getLangKey() {
 		return langKey;
+	}
+
+	public String getDescLangKey() {
+		return langKey + ".desc";
+	}
+
+	@Override
+	public int compareTo(Spell o) {
+		if (o == null) return 1;
+		if (o == this) return 0;
+
+		// Try sorting by type first.
+		final int typeOrder = getType().compareTo(o.getType());
+		if (typeOrder != 0) return typeOrder;
+
+		// Otherwise try an alphabetical sort on the id.
+		return getId().getPath().compareTo(o.getId().getPath());
 	}
 }

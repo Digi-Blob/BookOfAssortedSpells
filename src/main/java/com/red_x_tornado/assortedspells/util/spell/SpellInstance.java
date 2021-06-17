@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
  * This includes the {@linkplain #getLevel() level}, the {@linkplain #getMaxCasts() max casts}, the {@linkplain #getMaxCooldown() cooldown},
  * and other stuff.
  */
-public class SpellInstance {
+public class SpellInstance implements Comparable<SpellInstance> {
 
 	private final Spell spell;
 	private int level = 1;
@@ -120,6 +120,14 @@ public class SpellInstance {
 
 	public void setDuration(int value) {
 		duration = value;
+	}
+
+	@Override
+	public int compareTo(SpellInstance o) {
+		if (o == null) return 1;
+		if (o == this) return 0;
+
+		return getSpell().compareTo(o.getSpell());
 	}
 
 	public void write(PacketBuffer buf) {

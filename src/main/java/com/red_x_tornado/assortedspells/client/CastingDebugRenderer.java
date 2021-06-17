@@ -2,7 +2,6 @@ package com.red_x_tornado.assortedspells.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
-import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.util.cast.CastContext;
@@ -23,16 +22,17 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-@EventBusSubscriber(modid = BookOfAssortedSpells.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.FORGE)
+//@EventBusSubscriber(modid = BookOfAssortedSpells.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.FORGE)
 public class CastingDebugRenderer {
+
+	private static final boolean ENABLED = false;
 
 	@SubscribeEvent
 	public static void renderLast(RenderWorldLastEvent event) {
+		if (!ENABLED) return;
 		final Minecraft mc = Minecraft.getInstance();
 		final ItemStack wand = mc.player.getHeldItemMainhand();
 
