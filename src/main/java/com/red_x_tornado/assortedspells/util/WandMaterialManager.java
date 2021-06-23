@@ -49,6 +49,21 @@ public class WandMaterialManager {
 
 	public static final WandCore MAGMA_CORE = register(new WandCore(as("magma"), ASItems.MAGMA_WAND_CORE));
 	public static final WandCore COAL_CORE = register(new WandCore(as("coal"), ASItems.COAL_WAND_CORE));
+	public static final WandCore BLAZE_CORE = register(new WandCore(as("blaze"), ASItems.BLAZE_WAND_CORE));
+	public static final WandCore BLUE_ICE_CORE = register(new WandCore(as("blue_ice"), ASItems.BLUE_ICE_WAND_CORE));
+	public static final WandCore CHORUS_FRUIT_CORE = register(new WandCore(as("chorus_fruit"), ASItems.CHORUS_FRUIT_WAND_CORE));
+	public static final WandCore CRYING_OBSIDIAN_CORE = register(new WandCore(as("crying_obsidian"), ASItems.CRYING_OBSIDIAN_WAND_CORE));
+	public static final WandCore DIAMOND_CORE = register(new WandCore(as("diamond"), ASItems.DIAMOND_WAND_CORE));
+	public static final WandCore EYE_OF_ENDER_CORE = register(new WandCore(as("eye_of_ender"), ASItems.EYE_OF_ENDER_WAND_CORE));
+	public static final WandCore GLOWSTONE_CORE = register(new WandCore(as("glowstone"), ASItems.GLOWSTONE_WAND_CORE));
+	public static final WandCore HEART_OF_THE_SEA_CORE = register(new WandCore(as("heart_of_the_sea"), ASItems.HEART_OF_THE_SEA_WAND_CORE));
+	public static final WandCore HONEY_CORE = register(new WandCore(as("honey"), ASItems.HONEY_WAND_CORE));
+	public static final WandCore NAUTILUS_SHELL_CORE = register(new WandCore(as("nautilus_shell"), ASItems.NAUTILUS_SHELL_WAND_CORE));
+	public static final WandCore NETHER_STAR_CORE = register(new WandCore(as("nether_star"), ASItems.NETHER_STAR_WAND_CORE));
+	public static final WandCore PRISMARINE_CORE = register(new WandCore(as("prismarine"), ASItems.PRISMARINE_WAND_CORE));
+	public static final WandCore REDSTONE_CORE = register(new WandCore(as("redstone"), ASItems.REDSTONE_WAND_CORE));
+	public static final WandCore SEA_PICKLE_CORE = register(new WandCore(as("sea_pickle"), ASItems.SEA_PICKLE_WAND_CORE));
+	public static final WandCore WHEAT_CORE = register(new WandCore(as("wheat"), ASItems.WHEAT_WAND_CORE));
 
 	public static WandCap register(WandCap cap) {
 		CAPS.put(cap.getId(), cap);

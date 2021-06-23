@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "assortedspells:item/cores/sea_pickle_wand_core"
+  }
+}

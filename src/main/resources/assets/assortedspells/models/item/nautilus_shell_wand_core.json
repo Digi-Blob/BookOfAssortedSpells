@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "assortedspells:item/cores/nautilus_shell_wand_core"
+  }
+}

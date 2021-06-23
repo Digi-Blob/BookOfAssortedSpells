@@ -50,6 +50,21 @@ public class ASItems {
 
 	public static final RegistryObject<Item> MAGMA_WAND_CORE = REGISTRY.register("magma_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.MAGMA_CORE));
 	public static final RegistryObject<Item> COAL_WAND_CORE = REGISTRY.register("coal_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.COAL_CORE));
+	public static final RegistryObject<Item> BLAZE_WAND_CORE = REGISTRY.register("blaze_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.BLAZE_CORE));
+	public static final RegistryObject<Item> BLUE_ICE_WAND_CORE = REGISTRY.register("blue_ice_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.BLUE_ICE_CORE));
+	public static final RegistryObject<Item> CHORUS_FRUIT_WAND_CORE = REGISTRY.register("chorus_fruit_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.CHORUS_FRUIT_CORE));
+	public static final RegistryObject<Item> CRYING_OBSIDIAN_WAND_CORE = REGISTRY.register("crying_obsidian_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.CRYING_OBSIDIAN_CORE));
+	public static final RegistryObject<Item> DIAMOND_WAND_CORE = REGISTRY.register("diamond_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.DIAMOND_CORE));
+	public static final RegistryObject<Item> EYE_OF_ENDER_WAND_CORE = REGISTRY.register("eye_of_ender_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.EYE_OF_ENDER_CORE));
+	public static final RegistryObject<Item> GLOWSTONE_WAND_CORE = REGISTRY.register("glowstone_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.GLOWSTONE_CORE));
+	public static final RegistryObject<Item> HEART_OF_THE_SEA_WAND_CORE = REGISTRY.register("heart_of_the_sea_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.HEART_OF_THE_SEA_CORE));
+	public static final RegistryObject<Item> HONEY_WAND_CORE = REGISTRY.register("honey_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.HONEY_CORE));
+	public static final RegistryObject<Item> NAUTILUS_SHELL_WAND_CORE = REGISTRY.register("nautilus_shell_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.NAUTILUS_SHELL_CORE));
+	public static final RegistryObject<Item> NETHER_STAR_WAND_CORE = REGISTRY.register("nether_star_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.NETHER_STAR_CORE));
+	public static final RegistryObject<Item> PRISMARINE_WAND_CORE = REGISTRY.register("prismarine_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.PRISMARINE_CORE));
+	public static final RegistryObject<Item> REDSTONE_WAND_CORE = REGISTRY.register("redstone_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.REDSTONE_CORE));
+	public static final RegistryObject<Item> SEA_PICKLE_WAND_CORE = REGISTRY.register("sea_pickle_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.SEA_PICKLE_CORE));
+	public static final RegistryObject<Item> WHEAT_WAND_CORE = REGISTRY.register("wheat_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.WHEAT_CORE));
 
 	public static Item.Properties props() {
 		return new Item.Properties().group(BookOfAssortedSpells.TAB);

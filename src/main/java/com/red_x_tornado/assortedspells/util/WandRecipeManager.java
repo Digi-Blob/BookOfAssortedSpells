@@ -39,6 +39,22 @@ public class WandRecipeManager {
 		registerCoreRecipe(new SimpleWandMaterialRecipe(as("coal_core"), Items.COAL, new ItemStack(ASItems.COAL_WAND_CORE.get())));
 		registerCoreRecipe(new SimpleWandMaterialRecipe(as("coal_core_charcoal"), Items.CHARCOAL, new ItemStack(ASItems.COAL_WAND_CORE.get())));
 
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("blaze"), Items.BLAZE_POWDER, new ItemStack(ASItems.BLAZE_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("blue_ice"), Items.BLUE_ICE, new ItemStack(ASItems.BLUE_ICE_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("chorus_fruit"), Items.POPPED_CHORUS_FRUIT, new ItemStack(ASItems.CHORUS_FRUIT_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("crying_obsidian"), Items.CRYING_OBSIDIAN, new ItemStack(ASItems.CRYING_OBSIDIAN_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("diamond"), Items.DIAMOND, new ItemStack(ASItems.DIAMOND_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("eye_of_ender"), Items.ENDER_EYE, new ItemStack(ASItems.EYE_OF_ENDER_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("glowstone"), Items.GLOWSTONE_DUST, new ItemStack(ASItems.GLOWSTONE_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("heart_of_the_sea"), Items.HEART_OF_THE_SEA, new ItemStack(ASItems.HEART_OF_THE_SEA_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("honey"), Items.HONEYCOMB, new ItemStack(ASItems.HONEY_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("nautilus_shell"), Items.NAUTILUS_SHELL, new ItemStack(ASItems.NAUTILUS_SHELL_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("nether_star"), Items.NETHER_STAR, new ItemStack(ASItems.NETHER_STAR_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("prismarine"), Items.PRISMARINE_CRYSTALS, new ItemStack(ASItems.PRISMARINE_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("redstone"), Items.REDSTONE, new ItemStack(ASItems.REDSTONE_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("sea_pickle"), Items.SEA_PICKLE, new ItemStack(ASItems.SEA_PICKLE_WAND_CORE.get())));
+		registerCoreRecipe(new SimpleWandMaterialRecipe(as("wheat"), Items.WHEAT, new ItemStack(ASItems.WHEAT_WAND_CORE.get())));
+
 		registerRodRecipe(new SimpleWandMaterialRecipe(as("oak_rod"), Items.OAK_LOG, new ItemStack(ASItems.OAK_WAND_ROD.get())));
 		registerRodRecipe(new SimpleWandMaterialRecipe(as("bamboo_rod"), Items.BAMBOO, new ItemStack(ASItems.BAMBOO_WAND_ROD.get())));
 		registerRodRecipe(new SimpleWandMaterialRecipe(as("acacia_rod"), Items.STRIPPED_ACACIA_LOG, new ItemStack(ASItems.ACACIA_WAND_ROD.get())));
