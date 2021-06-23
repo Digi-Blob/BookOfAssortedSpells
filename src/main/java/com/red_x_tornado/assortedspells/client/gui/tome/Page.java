@@ -5,10 +5,12 @@ import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.TranslationTextComponent;
 
 public abstract class Page extends AbstractGui implements IGuiEventListener {
@@ -53,6 +55,10 @@ public abstract class Page extends AbstractGui implements IGuiEventListener {
 
 	public TranslationTextComponent trans(String key, Object... args) {
 		return new TranslationTextComponent(key, args);
+	}
+
+	public void playClickSound() {
+		minecraft.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1F));
 	}
 
 	public abstract void render(MatrixStack matrixStack, int mouseX, int mouseY);

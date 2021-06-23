@@ -1,9 +1,15 @@
 package com.red_x_tornado.assortedspells.client.gui.tome;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.red_x_tornado.assortedspells.network.ASNetworkManager;
+import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -20,7 +26,8 @@ public class SpellPage extends Page {
 		final int maxWidth = 146 - 15 - 16;
 		final int color = 0x000000;
 
-		drawDropdown(matrixStack, mouseX, mouseY);
+		drawSelectButton(matrixStack, mouseX, mouseY);
+		drawBookmarkButton(matrixStack, mouseX, mouseY);
 
 		final TranslationTextComponent name = trans(spell.getSpell().getLangKey());
 		final ITextComponent clazz = trans("assortedspells.gui.spell.class", trans(spell.getSpell().getClazz().getLangKey()));
@@ -59,7 +66,69 @@ public class SpellPage extends Page {
 		return base + " second" + (seconds == 1 ? "" : "s");
 	}
 
-	private void drawDropdown(MatrixStack matrixStack, int mouseX, int mouseY) {
-		blit(matrixStack, x + width - 56, y - 2, 25, 209, 24, 24, TEX_X, TEX_Y);
+	protected void drawSelectButton(MatrixStack matrixStack, int mouseX, int mouseY) {
+		final int x = this.x + width - 40;
+		final int y = this.y - 2;
+		final boolean sel = mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10;
+		final boolean shiftDown = InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)
+				|| InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+
+		if (shiftDown) {
+			blit(matrixStack, x, y, 235, sel ? 152 : 142, 10, 10, TEX_X, TEX_Y);
+			int v = 162;
+			for (int i = 0; i < caps.getQuickSpells().length; i++)
+				if (caps.getQuickSpells()[i] == spell) {
+					v = 172 + i * 10;
+					break;
+				}
+			blit(matrixStack, x, y, 235, v, 10, 10, TEX_X, TEX_Y);
+		} else
+			blit(matrixStack, x, y, 245, sel ? 152 : 142, 10, 10, TEX_X, TEX_Y);
+	}
+
+	protected void drawBookmarkButton(MatrixStack matrixStack, int mouseX, int mouseY) {
+		final int x = this.x + width - 40;
+		final int y = this.y + 10;
+		final boolean sel = mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10;
+
+		blit(matrixStack, x, y, 245, sel ? 172 : 162, 10, 10, TEX_X, TEX_Y);
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int button) {
+		if (clickedSelect(mouseX, mouseY))
+			return true;
+		if (clickedBookmark(mouseX, mouseY))
+			return true;
+
+		return false;
+	}
+
+	protected boolean clickedSelect(double mouseX, double mouseY) {
+		final int x = this.x + width - 40;
+		final int y = this.y - 2;
+		if (mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10) {
+			playClickSound();
+			if (spell != caps.getSelected()) {
+				caps.getPlayer().sendStatusMessage(new TranslationTextComponent(spell.getSpell().getLangKey()), true);
+				caps.select(spell.getSpell());
+				ASNetworkManager.get().sendToServer(new SpellSelectionMessage(spell.getSpell().getId()));
+			}
+			return true;
+		}
+
+		return false;
+	}
+
+	protected boolean clickedBookmark(double mouseX, double mouseY) {
+		final int x = this.x + width - 40;
+		final int y = this.y + 10;
+		if (mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10) {
+			playClickSound();
+			// TODO: Bookmarks
+			return true;
+		}
+
+		return false;
 	}
 }
