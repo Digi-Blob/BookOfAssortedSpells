@@ -14,6 +14,8 @@ import net.minecraft.util.math.vector.Vector3i;
 public class CastContext {
 
 	private final SpellInstance spell;
+	private final ISpellCaster caster;
+
 	private final Vector3d start;
 	private final Vector3d target;
 	private final Vector3d lookDirection;
@@ -27,8 +29,9 @@ public class CastContext {
 	private int ticks = 0;
 	private Vector3d pos;
 
-	public CastContext(SpellInstance spell, Vector3d start, Vector3d target, Vector3d lookDirection, @Nullable Direction hitFace, @Nullable Entity targetEntity) {
+	public CastContext(SpellInstance spell, ISpellCaster caster, Vector3d start, Vector3d target, Vector3d lookDirection, @Nullable Direction hitFace, @Nullable Entity targetEntity) {
 		this.spell = spell;
+		this.caster = caster;
 		this.target = target;
 		this.targetEntity = targetEntity;
 		this.start = start;
@@ -40,6 +43,10 @@ public class CastContext {
 
 	public SpellInstance getSpell() {
 		return spell;
+	}
+
+	public ISpellCaster getCaster() {
+		return caster;
 	}
 
 	public Vector3d getTarget() {

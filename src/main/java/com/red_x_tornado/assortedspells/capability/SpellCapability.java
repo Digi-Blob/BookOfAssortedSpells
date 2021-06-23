@@ -7,8 +7,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.red_x_tornado.assortedspells.util.cast.CastContext;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 import com.red_x_tornado.assortedspells.util.spell.Spell;
@@ -38,7 +36,7 @@ public class SpellCapability {
 	private final List<SpellInstance> knownSpells = new ArrayList<>();
 	private final SpellInstance[] quickSpells = new SpellInstance[MAX_QUICK_SPELLS];
 
-	private List<Pair<CastContext,ISpellCaster>> casters = new ArrayList<>(1);
+	private List<CastContext> casters = new ArrayList<>(1);
 
 	@Nullable
 	private SpellInstance selected;
@@ -120,10 +118,10 @@ public class SpellCapability {
 			hit = newHit == null ? entityRay.getHitVec() : newHit;
 		} else hit = ray.getHitVec();
 
-		final CastContext ctx = new CastContext(spell, start, hit, look, hitFace, targetEntity);
+		final CastContext ctx = new CastContext(spell, caster, start, hit, look, hitFace, targetEntity);
 
 		if (caster.begin(this, ctx))
-			casters.add(Pair.of(ctx, caster));
+			casters.add(ctx);
 
 		spell.applyCast(this, caster);
 	}
@@ -132,10 +130,10 @@ public class SpellCapability {
 		for (SpellInstance spell : knownSpells)
 			spell.tick();
 
-		final Iterator<Pair<CastContext,ISpellCaster>> it = casters.iterator();
+		final Iterator<CastContext> it = casters.iterator();
 		while (it.hasNext()) {
-			final Pair<CastContext,ISpellCaster> pair = it.next();
-			if (!pair.getRight().tick(this, pair.getLeft()))
+			final CastContext ctx = it.next();
+			if (!ctx.getCaster().tick(this, ctx))
 				it.remove();
 		}
 	}
