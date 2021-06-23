@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.util.cast.CastContext;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 import com.red_x_tornado.assortedspells.util.spell.Spell;
@@ -18,8 +19,10 @@ import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -37,6 +40,8 @@ public class SpellCapability {
 	private final SpellInstance[] quickSpells = new SpellInstance[MAX_QUICK_SPELLS];
 
 	private List<CastContext> casters = new ArrayList<>(1);
+
+	private List<Spell> bookmarks = new ArrayList<>();
 
 	@Nullable
 	private SpellInstance selected;
@@ -58,6 +63,10 @@ public class SpellCapability {
 		return knownSpells;
 	}
 
+	public List<Spell> getBookmarks() {
+		return bookmarks;
+	}
+
 	public void unlock(Spell spell) {
 		knownSpells.add(new SpellInstance(spell));
 	}
@@ -66,11 +75,11 @@ public class SpellCapability {
 		return quickSpells;
 	}
 
-	public int quickSpellIndexFromSelection() {
-		if (selected == null) return -1;
+	public int findSpellInQuickSpells(Spell spell) {
+		if (spell == null) return -1;
 
 		for (int i = 0; i < quickSpells.length; i++)
-			if (quickSpells[i] == selected)
+			if (quickSpells[i] != null && quickSpells[i].getSpell() == spell)
 				return i;
 
 		return -1;
@@ -144,6 +153,8 @@ public class SpellCapability {
 		for (int i = 0; i < MAX_QUICK_SPELLS; i++)
 			quickSpells[i] = caps.quickSpells[i];
 		selected = caps.getSelected();
+		bookmarks.clear();
+		bookmarks.addAll(caps.bookmarks);
 	}
 
 	public void write(PacketBuffer buf) {
@@ -161,6 +172,10 @@ public class SpellCapability {
 		}
 
 		buf.writeInt(selected == null ? -1 : knownSpells.indexOf(selected));
+
+		buf.writeInt(bookmarks.size());
+		for (Spell spell : bookmarks)
+			buf.writeResourceLocation(spell.getId());
 	}
 
 	public void read(PacketBuffer buf) {
@@ -175,6 +190,16 @@ public class SpellCapability {
 
 		final int idx = buf.readInt();
 		selected = idx == -1 ? null : knownSpells.get(idx);
+
+		final int bookmarkCount = buf.readInt();
+		for (int i = 0; i < bookmarkCount; i++) {
+			final ResourceLocation id = buf.readResourceLocation();
+			final Spell spell = Spell.find(id);
+			if (spell == null)
+				BookOfAssortedSpells.LOGGER.warn("Spell not found: {}!", id);
+			else
+				bookmarks.add(spell);
+		}
 	}
 
 	public CompoundNBT write() {
@@ -186,9 +211,18 @@ public class SpellCapability {
 			known.add(spell.toNBT());
 
 		nbt.put("knownSpells", known);
+
 		nbt.putIntArray("quickSpells", Arrays.stream(quickSpells).mapToInt(s -> s == null ? -1 : knownSpells.indexOf(s)).toArray());
+
 		if (getSelected() != null)
 			nbt.putInt("selected", knownSpells.indexOf(getSelected()));
+
+		final ListNBT bookmarkTag = new ListNBT();
+
+		for (Spell spell : bookmarks)
+			bookmarkTag.add(StringNBT.valueOf(spell.getId().toString()));
+
+		nbt.put("bookmarks", bookmarkTag);
 
 		return nbt;
 	}
@@ -206,5 +240,19 @@ public class SpellCapability {
 			quickSpells[i] = arr[i];
 
 		selected = nbt.contains("selected", Constants.NBT.TAG_INT) ? knownSpells.get(nbt.getInt("selected")) : null;
+
+		bookmarks.clear();
+
+		if (nbt.contains("bookmarks", Constants.NBT.TAG_LIST)) {
+			final ListNBT bookmarkTag = nbt.getList("bookmarks", Constants.NBT.TAG_STRING);
+			for (int i = 0; i < bookmarkTag.size(); i++) {
+				final ResourceLocation id = new ResourceLocation(bookmarkTag.getString(i));
+				final Spell spell = Spell.find(id);
+				if (spell == null)
+					BookOfAssortedSpells.LOGGER.warn("Spell not found: {}, skipping bookmark for it.", id);
+				else
+					bookmarks.add(spell);
+			}
+		}
 	}
 }

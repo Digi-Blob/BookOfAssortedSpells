@@ -56,7 +56,7 @@ public class ClientEvents {
 				final SpellCapability caps = SpellCapability.get(player);
 
 				final int direction = event.getScrollDelta() < 0 ? -1 : 1;
-				int startIndex = caps.quickSpellIndexFromSelection();
+				int startIndex = caps.findSpellInQuickSpells(caps.getSelected().getSpell());
 				// We need to fix this in case we don't have a quick spell selected.
 				if (startIndex == -1)
 					startIndex = direction == -1 ? 1 : caps.getQuickSpells().length - 1;
