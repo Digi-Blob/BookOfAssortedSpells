@@ -3,8 +3,11 @@ package com.red_x_tornado.assortedspells.client.gui.tome;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
+import com.red_x_tornado.assortedspells.network.msg.tome.QuickspellModificationMessage;
+import com.red_x_tornado.assortedspells.network.msg.tome.SpellBookmarkMessage;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
@@ -109,7 +112,11 @@ public class SpellPage extends Page {
 		final int y = this.y - 2;
 		if (mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10) {
 			playClickSound();
-			if (spell != caps.getSelected()) {
+			final boolean shiftDown = InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)
+					|| InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
+			if (shiftDown)
+				cycleQuickspell();
+			else if (spell != caps.getSelected()) {
 				caps.getPlayer().sendStatusMessage(new TranslationTextComponent(spell.getSpell().getLangKey()), true);
 				caps.select(spell.getSpell());
 				ASNetworkManager.get().sendToServer(new SpellSelectionMessage(spell.getSpell().getId()));
@@ -120,12 +127,45 @@ public class SpellPage extends Page {
 		return false;
 	}
 
+	protected void cycleQuickspell() {
+		final SpellInstance[] quick = caps.getQuickSpells();
+		final int cur = caps.findSpellInQuickSpells(spell.getSpell());
+
+		int i = cur;
+		do {
+			if (i == quick.length - 1)
+				i = -1;
+			else
+				i++;
+
+			if (i == -1 || quick[i] == null)
+				break;
+		} while (i != cur);
+
+		if (i == cur)
+			return; // Should only be possible if your quickspells is full and you try to add another.
+
+		if (cur != -1)
+			quick[cur] = null;
+		if (i != -1)
+			quick[i] = spell;
+
+		ASNetworkManager.get().sendToServer(new QuickspellModificationMessage(spell.getSpell().getId(), (byte) i));
+	}
+
 	protected boolean clickedBookmark(double mouseX, double mouseY) {
 		final int x = this.x + width - 40;
 		final int y = this.y + 10;
 		if (mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10) {
 			playClickSound();
-			// TODO: Bookmarks
+
+			final boolean remove = caps.getBookmarks().contains(spell.getSpell());
+			if (remove)
+				caps.getBookmarks().remove(spell.getSpell());
+			else caps.getBookmarks().add(spell.getSpell());
+
+			ASNetworkManager.get().sendToServer(new SpellBookmarkMessage(spell.getSpell().getId(), !remove));
+
 			return true;
 		}
 

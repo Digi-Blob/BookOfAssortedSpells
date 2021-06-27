@@ -90,6 +90,11 @@ public class SpellCapability {
 	}
 
 	@Nullable
+	public SpellInstance getKnown(Spell spell) {
+		return getKnownSpells().stream().filter(ins -> ins.getSpell().getId().equals(spell.getId())).findFirst().orElse(null);
+	}
+
+	@Nullable
 	public SpellInstance getSelected() {
 		return selected;
 	}
