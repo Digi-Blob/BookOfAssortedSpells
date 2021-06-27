@@ -93,8 +93,9 @@ public class SpellPage extends Page {
 		final int x = this.x + width - 40;
 		final int y = this.y + 10;
 		final boolean sel = mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10;
+		final boolean bookmarked = caps.getBookmarks().contains(spell.getSpell());
 
-		blit(matrixStack, x, y, 245, sel ? 172 : 162, 10, 10, TEX_X, TEX_Y);
+		blit(matrixStack, x, y, bookmarked ? 216 : 226, sel ? 172 : 162, 10, 10, TEX_X, TEX_Y);
 	}
 
 	@Override
