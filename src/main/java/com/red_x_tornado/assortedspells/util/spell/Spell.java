@@ -1,5 +1,6 @@
 package com.red_x_tornado.assortedspells.util.spell;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -62,6 +63,10 @@ public abstract class Spell implements Comparable<Spell> {
 
 	public static Set<ResourceLocation> getSpellIds() {
 		return ALL_SPELLS.keySet();
+	}
+
+	public static Collection<Spell> getSpells() {
+		return ALL_SPELLS.values();
 	}
 
 	public ISpellCaster getCaster() {

@@ -132,10 +132,7 @@
 
   "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",
-
-  "assortedspells.command.quickspell.notfound": "Unknown spell: %s.",
-  "assortedspells.command.quickspell.notknown": "You don't know the spell %s.",
-  "assortedspells.command.quickspell.success": "Set quickspell %s to %s.",
+  "assortedspells.command.unlock.fail": "Couldn't unlock spell %s.",
 
   "assortedspells.message.nospells": "You don't have any selected spells.",
 

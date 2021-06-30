@@ -67,8 +67,11 @@ public class SpellCapability {
 		return bookmarks;
 	}
 
-	public void unlock(Spell spell) {
+	public boolean unlock(Spell spell) {
+		if (isKnown(spell)) return false;
+
 		knownSpells.add(new SpellInstance(spell));
+		return true;
 	}
 
 	public SpellInstance[] getQuickSpells() {
