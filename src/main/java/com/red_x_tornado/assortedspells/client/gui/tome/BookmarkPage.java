@@ -42,7 +42,7 @@ public class BookmarkPage extends Page {
 	public void refreshBookmarks() {
 		bookmarks.clear();
 
-		int y = this.y + font.FONT_HEIGHT;
+		int y = this.y + font.FONT_HEIGHT * 2;
 		for (Spell spell : caps.getBookmarks()) {
 			final Bookmark bookmark = new Bookmark(x, y, screen.findSpellPage(spell), font, screen);
 			bookmarks.add(bookmark);

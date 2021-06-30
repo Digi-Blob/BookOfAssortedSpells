@@ -34,8 +34,8 @@ public class Bookmark implements Comparable<Bookmark> {
 
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY) {
 		final boolean sel = inBounds(mouseX, mouseY);
-		final int color = sel ? 0x999999 : 0x777777;
-		font.drawTextWithShadow(matrixStack, name, x, y, color);
+		final int color = sel ? 0x777777 : 0x000000;
+		font.drawText(matrixStack, name, x, y, color);
 	}
 
 	public boolean inBounds(int mouseX, int mouseY) {
