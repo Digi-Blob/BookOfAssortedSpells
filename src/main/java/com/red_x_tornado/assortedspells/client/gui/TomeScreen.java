@@ -49,6 +49,7 @@ public class TomeScreen extends Screen {
 	private final List<Page> pages = new ArrayList<>();
 
 	private int page = 0;
+	private final int maxPage;
 	private BookmarkPage bookmarkPage;
 	private Map<SpellType,Integer> spellTypePages = new EnumMap<>(SpellType.class);
 
@@ -62,6 +63,8 @@ public class TomeScreen extends Screen {
 		} catch (Exception e) {
 			BookOfAssortedSpells.LOGGER.error("An exception occurred on tome screen init!", e);
 		}
+
+		maxPage = pages.size() % 2 == 0 ? pages.size() : pages.size() - 1;
 	}
 
 	public static void open() {
@@ -100,7 +103,10 @@ public class TomeScreen extends Screen {
 	}
 
 	protected void turnPage(boolean left) {
-		page = MathHelper.clamp(page + (left ? -2 : 2), 0, pages.size() % 2 == 0 ? pages.size() : pages.size() - 1);
+		if (!Page.isShiftDown())
+			page = MathHelper.clamp(page + (left ? -2 : 2), 0, maxPage);
+		else
+			page = left ? 0 : maxPage;
 	}
 
 	public void switchToPage(Page page) {
@@ -124,6 +130,9 @@ public class TomeScreen extends Screen {
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		renderBackground(matrixStack);
+
+		leftArrow.visible = page != 0;
+		rightArrow.visible = page != maxPage;
 
 		try {
 			minecraft.getTextureManager().bindTexture(BOOK_TEXTURE);
@@ -198,13 +207,6 @@ public class TomeScreen extends Screen {
 		} catch (Exception e) { // I might have accidentally screwed something up, so let's not crash.
 			BookOfAssortedSpells.LOGGER.error("Exception rendering tome GUI:", e);
 		}
-	}
-
-	private void hfill(MatrixStack matrixStack, int x1, int y1, int x2, int y2, int color) {
-		hLine(matrixStack, x1, x2, y1, color);
-		hLine(matrixStack, x1, x2, y2, color);
-		vLine(matrixStack, x1, y1, y2, color);
-		vLine(matrixStack, x2, y1, y2, color);
 	}
 
 	@Override

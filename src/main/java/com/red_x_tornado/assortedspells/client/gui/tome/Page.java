@@ -59,18 +59,18 @@ public abstract class Page extends AbstractGui implements IGuiEventListener {
 		return 0;
 	}
 
-	public TranslationTextComponent trans(String key, Object... args) {
+	public static TranslationTextComponent trans(String key, Object... args) {
 		return new TranslationTextComponent(key, args);
 	}
 
-	public boolean isShiftDown() {
-		final long handle = minecraft.getMainWindow().getHandle();
+	public static boolean isShiftDown() {
+		final long handle = Minecraft.getInstance().getMainWindow().getHandle();
 		return InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_LEFT_SHIFT)
 				|| InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_SHIFT);
 	}
 
-	public void playClickSound() {
-		minecraft.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1F));
+	public static void playClickSound() {
+		Minecraft.getInstance().getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1F));
 	}
 
 	public abstract void render(MatrixStack matrixStack, int mouseX, int mouseY);
