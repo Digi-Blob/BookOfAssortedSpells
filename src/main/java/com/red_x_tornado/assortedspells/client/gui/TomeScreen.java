@@ -6,6 +6,8 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
@@ -14,6 +16,7 @@ import com.red_x_tornado.assortedspells.client.gui.tome.Page;
 import com.red_x_tornado.assortedspells.client.gui.tome.QuickspellPage;
 import com.red_x_tornado.assortedspells.client.gui.tome.SpellPage;
 import com.red_x_tornado.assortedspells.client.gui.tome.SpellTypePage;
+import com.red_x_tornado.assortedspells.util.spell.Spell;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 import com.red_x_tornado.assortedspells.util.spell.SpellType;
 
@@ -46,15 +49,19 @@ public class TomeScreen extends Screen {
 	private final List<Page> pages = new ArrayList<>();
 
 	private int page = 0;
-	private int bookmarkPages = 1;
+	private BookmarkPage bookmarkPage;
 	private Map<SpellType,Integer> spellTypePages = new EnumMap<>(SpellType.class);
 
 	public TomeScreen() {
 		super(new StringTextComponent(""));
 		caps = SpellCapability.get(Minecraft.getInstance().player);
 		spells = new ArrayList<>(caps.getKnownSpells());
-		Collections.sort(spells);
-		fillPages();
+		try {
+			Collections.sort(spells);
+			fillPages();
+		} catch (Exception e) {
+			BookOfAssortedSpells.LOGGER.error("An exception occurred on tome screen init!", e);
+		}
 	}
 
 	public static void open() {
@@ -65,7 +72,7 @@ public class TomeScreen extends Screen {
 		pages.clear();
 
 		pages.add(new QuickspellPage());
-		pages.add(new BookmarkPage());
+		pages.add(bookmarkPage = new BookmarkPage());
 
 		for (SpellType type : SpellType.values()) {
 			spellTypePages.put(type, pages.size());
@@ -89,11 +96,29 @@ public class TomeScreen extends Screen {
 		addListener(rightArrow);
 
 		for (Page page : pages)
-			page.init(minecraft, font, caps);
+			page.init(minecraft, font, caps, this);
 	}
 
 	protected void turnPage(boolean left) {
 		page = MathHelper.clamp(page + (left ? -2 : 2), 0, pages.size() % 2 == 0 ? pages.size() : pages.size() - 1);
+	}
+
+	public void switchToPage(Page page) {
+		final int idx = pages.indexOf(page);
+		if (idx == -1) return;
+		this.page = idx % 2 == 0 ? idx : idx - 1;
+	}
+
+	@Nullable
+	public SpellPage findSpellPage(Spell spell) {
+		return (SpellPage) pages.stream()
+				.filter(p -> p instanceof SpellPage && ((SpellPage) p).getSpell().getSpell().equals(spell))
+				.findFirst()
+				.orElse(null);
+	}
+
+	public BookmarkPage getBookmarkPage() {
+		return bookmarkPage;
 	}
 
 	@Override
@@ -114,8 +139,8 @@ public class TomeScreen extends Screen {
 				for (SpellType type : SpellType.values()) {
 					if (rightPage instanceof SpellTypePage && ((SpellTypePage) rightPage).type == type)
 						continue;
-					final int index = spellTypePages.get(type);
-					if (index <= page + 1) continue;
+					final Integer index = spellTypePages.get(type);
+					if (index == null || index <= page + 1) continue;
 					blit(matrixStack, screenX + 135 + 10 + tab + rightOffset, screenY - 18, 256, 0, 24, 24, TEX_X, TEX_Y);
 					blit(matrixStack, screenX + 135 + 10 + tab + 4 + rightOffset, screenY - 18 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, TEX_X, TEX_Y);
 					tab += 14;
@@ -147,8 +172,8 @@ public class TomeScreen extends Screen {
 				for (SpellType type : SpellType.values()) {
 					if (leftPage instanceof SpellTypePage && ((SpellTypePage) leftPage).type == type)
 						continue;
-					final int index = spellTypePages.get(type);
-					if (index >= page) continue;
+					final Integer index = spellTypePages.get(type);
+					if (index == null || index >= page) continue;
 					blit(matrixStack, screenX + 10 + tab + offset, screenY - 18, 256, 0, 24, 24, TEX_X, TEX_Y);
 					blit(matrixStack, screenX + 10 + tab + 4 + offset, screenY - 18 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, TEX_X, TEX_Y);
 					tab += 14;

@@ -39,9 +39,9 @@ public class SpellCapability {
 	private final List<SpellInstance> knownSpells = new ArrayList<>();
 	private final SpellInstance[] quickSpells = new SpellInstance[MAX_QUICK_SPELLS];
 
-	private List<CastContext> casters = new ArrayList<>(1);
+	private final List<CastContext> casters = new ArrayList<>(1);
 
-	private List<Spell> bookmarks = new ArrayList<>();
+	private final List<Spell> bookmarks = new ArrayList<>();
 
 	@Nullable
 	private SpellInstance selected;

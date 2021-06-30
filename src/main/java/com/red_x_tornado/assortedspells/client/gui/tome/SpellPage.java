@@ -24,6 +24,10 @@ public class SpellPage extends Page {
 		this.spell = spell;
 	}
 
+	public SpellInstance getSpell() {
+		return spell;
+	}
+
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY) {
 		final int maxWidth = 146 - 15 - 16;
@@ -166,6 +170,7 @@ public class SpellPage extends Page {
 			else caps.getBookmarks().add(spell.getSpell());
 
 			ASNetworkManager.get().sendToServer(new SpellBookmarkMessage(spell.getSpell().getId(), !remove));
+			screen.getBookmarkPage().refreshBookmarks();
 
 			return true;
 		}

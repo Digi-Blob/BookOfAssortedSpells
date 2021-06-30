@@ -3,6 +3,7 @@ package com.red_x_tornado.assortedspells.client.gui.tome;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
+import com.red_x_tornado.assortedspells.client.gui.TomeScreen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.SimpleSound;
@@ -23,16 +24,18 @@ public abstract class Page extends AbstractGui implements IGuiEventListener {
 	protected Minecraft minecraft;
 	protected FontRenderer font;
 	protected SpellCapability caps;
+	protected TomeScreen screen;
 
 	protected int x;
 	protected int y;
 	protected int width;
 	protected int height;
 
-	public void init(Minecraft minecraft, FontRenderer font, SpellCapability caps) {
+	public void init(Minecraft minecraft, FontRenderer font, SpellCapability caps, TomeScreen screen) {
 		this.minecraft = minecraft;
 		this.font = font;
 		this.caps = caps;
+		this.screen = screen;
 	}
 
 	public void setPos(int x, int y, int width, int height) {
