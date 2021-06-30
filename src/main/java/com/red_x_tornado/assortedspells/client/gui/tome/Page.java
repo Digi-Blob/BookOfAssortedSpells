@@ -1,5 +1,7 @@
 package com.red_x_tornado.assortedspells.client.gui.tome;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
@@ -10,6 +12,7 @@ import net.minecraft.client.audio.SimpleSound;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -58,6 +61,12 @@ public abstract class Page extends AbstractGui implements IGuiEventListener {
 
 	public TranslationTextComponent trans(String key, Object... args) {
 		return new TranslationTextComponent(key, args);
+	}
+
+	public boolean isShiftDown() {
+		final long handle = minecraft.getMainWindow().getHandle();
+		return InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_LEFT_SHIFT)
+				|| InputMappings.isKeyDown(handle, GLFW.GLFW_KEY_RIGHT_SHIFT);
 	}
 
 	public void playClickSound() {

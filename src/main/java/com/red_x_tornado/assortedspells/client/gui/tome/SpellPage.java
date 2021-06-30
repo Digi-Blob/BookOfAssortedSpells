@@ -1,9 +1,6 @@
 package com.red_x_tornado.assortedspells.client.gui.tome;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
 import com.red_x_tornado.assortedspells.network.msg.tome.QuickspellModificationMessage;
@@ -11,8 +8,6 @@ import com.red_x_tornado.assortedspells.network.msg.tome.SpellBookmarkMessage;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
@@ -64,7 +59,7 @@ public class SpellPage extends Page {
 		minecraft.getTextureManager().bindTexture(BOOK_TEXTURE);
 	}
 
-	private String ticksToSeconds(int ticks) {
+	private String ticksToSeconds(int ticks) { // TODO: This needs translation.
 		final float seconds = ticks / 20F;
 		final String base;
 		if (seconds % 1 == 0) base = Integer.toString((int) seconds);
@@ -77,10 +72,8 @@ public class SpellPage extends Page {
 		final int x = this.x + width - 40;
 		final int y = this.y - 2;
 		final boolean sel = mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10;
-		final boolean shiftDown = InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)
-				|| InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
 
-		if (shiftDown) {
+		if (isShiftDown()) {
 			blit(matrixStack, x, y, 235, sel ? 152 : 142, 10, 10, TEX_X, TEX_Y);
 			int v = 162;
 			for (int i = 0; i < caps.getQuickSpells().length; i++)
@@ -117,9 +110,8 @@ public class SpellPage extends Page {
 		final int y = this.y - 2;
 		if (mouseX > x && mouseX < x + 10 && mouseY > y && mouseY < y + 10) {
 			playClickSound();
-			final boolean shiftDown = InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)
-					|| InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_RIGHT_SHIFT);
-			if (shiftDown)
+
+			if (isShiftDown())
 				cycleQuickspell();
 			else if (spell != caps.getSelected()) {
 				caps.getPlayer().sendStatusMessage(new TranslationTextComponent(spell.getSpell().getLangKey()), true);
