@@ -80,10 +80,16 @@ public class QuickspellPage extends Page {
 
 		if (sel != -1) {
 			final SpellInstance spell = caps.getQuickSpells()[sel];
-			if (spell != null && spell != caps.getSelected()) {
-				caps.getPlayer().sendStatusMessage(new TranslationTextComponent(spell.getSpell().getLangKey()), true);
-				caps.select(spell.getSpell());
-				ASNetworkManager.get().sendToServer(new SpellSelectionMessage(spell.getSpell().getId()));
+			if (spell != null) {
+				if (isShiftDown()) {
+					final SpellPage page = screen.findSpellPage(spell.getSpell());
+					if (page != null)
+						screen.switchToPage(page);
+				} else if (spell != caps.getSelected()) {
+					caps.getPlayer().sendStatusMessage(new TranslationTextComponent(spell.getSpell().getLangKey()), true);
+					caps.select(spell.getSpell());
+					ASNetworkManager.get().sendToServer(new SpellSelectionMessage(spell.getSpell().getId()));
+				}
 			}
 		}
 
