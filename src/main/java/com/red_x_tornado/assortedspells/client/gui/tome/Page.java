@@ -19,7 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public abstract class Page extends AbstractGui implements IGuiEventListener {
 
-	protected static final ResourceLocation BOOK_TEXTURE = new ResourceLocation(BookOfAssortedSpells.MOD_ID, "textures/gui/tome.png");
+	public static final ResourceLocation BOOK_TEXTURE = new ResourceLocation(BookOfAssortedSpells.MOD_ID, "textures/gui/tome.png");
 
 	protected static final int TEX_X = 384;
 	protected static final int TEX_Y = 256;

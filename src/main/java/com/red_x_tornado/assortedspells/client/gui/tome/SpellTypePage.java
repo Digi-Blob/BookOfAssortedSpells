@@ -1,6 +1,7 @@
 package com.red_x_tornado.assortedspells.client.gui.tome;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.red_x_tornado.assortedspells.client.gui.TomeScreen;
 import com.red_x_tornado.assortedspells.util.spell.SpellType;
 
 import net.minecraft.util.text.TranslationTextComponent;
@@ -19,7 +20,8 @@ public class SpellTypePage extends Page {
 
 		// + maxWidth - 34
 		blit(matrixStack, x + 4, y - 16 - 23, 256, 0, 24, 196, TEX_X, TEX_Y);
-		blit(matrixStack, x + 4 + 4, y - 16 - 23 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, TEX_X, TEX_Y);
+		minecraft.getTextureManager().bindTexture(TomeScreen.ICONS);
+		blit(matrixStack, x + 4 + 4, y - 16 - 23 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, 128, 32);
 
 		final TranslationTextComponent name = new TranslationTextComponent(type.getLangKey());
 

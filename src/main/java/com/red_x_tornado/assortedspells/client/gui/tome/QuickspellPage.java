@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.red_x_tornado.assortedspells.client.gui.TomeScreen;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
@@ -55,7 +56,8 @@ public class QuickspellPage extends Page {
 
 		final SpellType type = spell.getSpell().getType();
 
-		blit(matrixStack, x, y, typeU(type), typeV(type, sel), 16, 16, TEX_X, TEX_Y);
+		minecraft.getTextureManager().bindTexture(TomeScreen.ICONS);
+		blit(matrixStack, x, y, typeU(type), typeV(type, sel), 16, 16, 128, 32);
 	}
 
 	private int getSelectedSpell(int mouseX, int mouseY) {
@@ -99,27 +101,27 @@ public class QuickspellPage extends Page {
 	public static int typeU(SpellType type) {
 		switch (type) {
 		case AIR:
-			return 121;
+			return 48;
 		case ARCANE:
-			return 169;
+			return 96;
 		case COSMIC:
-			return 185;
+			return 112;
 		case DARK:
-			return 154;
+			return 80;
 		case EARTH:
-			return 105;
+			return 32;
 		case FIRE:
-			return 73;
+			return 0;
 		case LIGHT:
-			return 137;
+			return 64;
 		case WATER:
-			return 89;
+			return 16;
 		default:
 			return -1;
 		}
 	}
 
 	public static int typeV(SpellType type, boolean sel) {
-		return 182 + (sel ? 16 : 0);
+		return (sel ? 16 : 0);
 	}
 }

@@ -30,7 +30,7 @@ import net.minecraft.util.text.StringTextComponent;
 
 public class TomeScreen extends Screen {
 
-	private static final ResourceLocation BOOK_TEXTURE = new ResourceLocation(BookOfAssortedSpells.MOD_ID, "textures/gui/tome.png");
+	public static final ResourceLocation ICONS = new ResourceLocation(BookOfAssortedSpells.MOD_ID, "textures/gui/icons.png");
 
 	private static final int TEX_X = 384;
 	private static final int TEX_Y = 256;
@@ -135,7 +135,7 @@ public class TomeScreen extends Screen {
 		rightArrow.visible = page != maxPage;
 
 		try {
-			minecraft.getTextureManager().bindTexture(BOOK_TEXTURE);
+			minecraft.getTextureManager().bindTexture(Page.BOOK_TEXTURE);
 
 			final Page rightPage = page + 1 >= pages.size() ? null : pages.get(page + 1);
 
@@ -151,7 +151,9 @@ public class TomeScreen extends Screen {
 					final Integer index = spellTypePages.get(type);
 					if (index == null || index <= page + 1) continue;
 					blit(matrixStack, screenX + 135 + 10 + tab + rightOffset, screenY - 18, 256, 0, 24, 24, TEX_X, TEX_Y);
-					blit(matrixStack, screenX + 135 + 10 + tab + 4 + rightOffset, screenY - 18 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, TEX_X, TEX_Y);
+					minecraft.getTextureManager().bindTexture(ICONS);
+					blit(matrixStack, screenX + 135 + 10 + tab + 4 + rightOffset, screenY - 18 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, 128, 32);
+					minecraft.getTextureManager().bindTexture(Page.BOOK_TEXTURE);
 					tab += 14;
 				}
 			}
@@ -165,7 +167,7 @@ public class TomeScreen extends Screen {
 				final int y = screenY + 16 + 9 * 6;
 				font.drawString(matrixStack, "This space intentionally", x + (maxWidth - font.getStringWidth("This space intentionally")) / 2, y, 0x000000);
 				font.drawString(matrixStack, "left blank.", x + (maxWidth - font.getStringWidth("left blank.")) / 2, y + 9, 0x000000);
-				minecraft.getTextureManager().bindTexture(BOOK_TEXTURE);
+				minecraft.getTextureManager().bindTexture(Page.BOOK_TEXTURE);
 			}
 
 			rightArrow.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -184,7 +186,9 @@ public class TomeScreen extends Screen {
 					final Integer index = spellTypePages.get(type);
 					if (index == null || index >= page) continue;
 					blit(matrixStack, screenX + 10 + tab + offset, screenY - 18, 256, 0, 24, 24, TEX_X, TEX_Y);
-					blit(matrixStack, screenX + 10 + tab + 4 + offset, screenY - 18 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, TEX_X, TEX_Y);
+					minecraft.getTextureManager().bindTexture(ICONS);
+					blit(matrixStack, screenX + 10 + tab + 4 + offset, screenY - 18 + 4, QuickspellPage.typeU(type), QuickspellPage.typeV(type, false), 16, 16, 128, 32);
+					minecraft.getTextureManager().bindTexture(Page.BOOK_TEXTURE);
 					tab += 14;
 				}
 			}
@@ -198,7 +202,7 @@ public class TomeScreen extends Screen {
 				final int y = screenY + 16 + 9 * 6;
 				font.drawString(matrixStack, "This space intentionally", x + (maxWidth - font.getStringWidth("This space intentionally")) / 2, y, 0x000000);
 				font.drawString(matrixStack, "left blank.", x + (maxWidth - font.getStringWidth("left blank.")) / 2, y + 9, 0x000000);
-				minecraft.getTextureManager().bindTexture(BOOK_TEXTURE);
+				minecraft.getTextureManager().bindTexture(Page.BOOK_TEXTURE);
 			}
 
 			leftArrow.render(matrixStack, mouseX, mouseY, partialTicks);
@@ -317,7 +321,7 @@ public class TomeScreen extends Screen {
 
 		@Override
 		public void renderWidget(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-			Minecraft.getInstance().getTextureManager().bindTexture(BOOK_TEXTURE);
+			Minecraft.getInstance().getTextureManager().bindTexture(Page.BOOK_TEXTURE);
 
 			blit(matrixStack, x, y, isHovered() ? 18 : 0, left ? 191 : 181, width, height, TEX_X, TEX_Y);
 		}
