@@ -1,12 +1,14 @@
 package com.red_x_tornado.assortedspells.init;
 
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
+import com.red_x_tornado.assortedspells.item.RuneItem;
 import com.red_x_tornado.assortedspells.item.TomeItem;
 import com.red_x_tornado.assortedspells.item.WandCapItem;
 import com.red_x_tornado.assortedspells.item.WandCoreItem;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.item.WandRodItem;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager;
+import com.red_x_tornado.assortedspells.util.spell.SpellType;
 
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -65,6 +67,15 @@ public class ASItems {
 	public static final RegistryObject<Item> REDSTONE_WAND_CORE = REGISTRY.register("redstone_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.REDSTONE_CORE));
 	public static final RegistryObject<Item> SEA_PICKLE_WAND_CORE = REGISTRY.register("sea_pickle_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.SEA_PICKLE_CORE));
 	public static final RegistryObject<Item> WHEAT_WAND_CORE = REGISTRY.register("wheat_wand_core", () -> new WandCoreItem(props(), () -> WandMaterialManager.WHEAT_CORE));
+
+	public static final RegistryObject<Item> AIR_RUNE = REGISTRY.register("air_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.AIR));
+	public static final RegistryObject<Item> ARCANE_RUNE = REGISTRY.register("arcane_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.ARCANE));
+	public static final RegistryObject<Item> COSMIC_RUNE = REGISTRY.register("cosmic_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.COSMIC));
+	public static final RegistryObject<Item> DARK_RUNE = REGISTRY.register("dark_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.DARK));
+	public static final RegistryObject<Item> EARTH_RUNE = REGISTRY.register("earth_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.EARTH));
+	public static final RegistryObject<Item> FIRE_RUNE = REGISTRY.register("fire_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.FIRE));
+	public static final RegistryObject<Item> LIGHT_RUNE = REGISTRY.register("light_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.LIGHT));
+	public static final RegistryObject<Item> WATER_RUNE = REGISTRY.register("water_rune", () -> new RuneItem(props().maxStackSize(16), SpellType.WATER));
 
 	public static Item.Properties props() {
 		return new Item.Properties().group(BookOfAssortedSpells.TAB);

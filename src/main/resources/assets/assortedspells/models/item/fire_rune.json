@@ -1,0 +1,6 @@
+{
+  "parent": "assortedspells:item/rune",
+  "textures": {
+    "layer0": "assortedspells:item/runes/fire_rune"
+  }
+}

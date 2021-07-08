@@ -49,6 +49,15 @@
   "item.assortedspells.sea_pickle_wand_core": "Sea Pickle Wand Core",
   "item.assortedspells.wheat_wand_core": "Wheat Wand Core",
 
+  "item.assortedspells.air_rune": "Air Rune",
+  "item.assortedspells.arcane_rune": "Arcane Rune",
+  "item.assortedspells.cosmic_rune": "Cosmic Rune",
+  "item.assortedspells.dark_rune": "Dark Rune",
+  "item.assortedspells.earth_rune": "Earth Rune",
+  "item.assortedspells.fire_rune": "Fire Rune",
+  "item.assortedspells.light_rune": "Light Rune",
+  "item.assortedspells.water_rune": "Water Rune",
+
   "block.assortedspells.runestone": "Runestone",
   "block.assortedspells.wand_builder": "Wand Station",
 
