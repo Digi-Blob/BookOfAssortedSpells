@@ -130,11 +130,4 @@ public class WandBuilderScreen extends ContainerScreen<WandBuilderContainer> {
 	protected void playClickSound() {
 		minecraft.getSoundHandler().play(SimpleSound.master(SoundEvents.UI_BUTTON_CLICK, 1F));
 	}
-
-	private void hfill(MatrixStack matrixStack, int x1, int y1, int x2, int y2, int color) {
-		hLine(matrixStack, x1, x2, y1, color);
-		hLine(matrixStack, x1, x2, y2, color);
-		vLine(matrixStack, x1, y1, y2, color);
-		vLine(matrixStack, x2, y1, y2, color);
-	}
 }

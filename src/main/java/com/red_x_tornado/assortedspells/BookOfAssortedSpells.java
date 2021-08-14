@@ -72,7 +72,7 @@ public class BookOfAssortedSpells {
 	void onCommonSetup(FMLCommonSetupEvent event) {
 		CapabilityManager.INSTANCE.register(SpellCapability.class, new SpellCapabilityStorage(),
 				() -> {
-					throw new UnsupportedOperationException("Color capability requires a player!");
+					throw new UnsupportedOperationException("Spell capability requires a player!");
 				});
 
 		ASNetworkManager.init();

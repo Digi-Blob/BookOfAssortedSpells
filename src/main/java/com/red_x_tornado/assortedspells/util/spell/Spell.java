@@ -168,4 +168,9 @@ public abstract class Spell implements Comparable<Spell> {
 		// Otherwise try an alphabetical sort on the id.
 		return getId().getPath().compareTo(o.getId().getPath());
 	}
+
+	@Override
+	public String toString() {
+		return getId().toString();
+	}
 }
