@@ -1,5 +1,6 @@
 package com.red_x_tornado.assortedspells.item;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -10,6 +11,8 @@ import com.red_x_tornado.assortedspells.util.WandMaterialManager;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager.WandCap;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager.WandCore;
 import com.red_x_tornado.assortedspells.util.WandMaterialManager.WandRod;
+import com.red_x_tornado.assortedspells.util.spell.Spell;
+import com.red_x_tornado.assortedspells.util.spell.SpellType;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,6 +23,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -65,6 +69,44 @@ public class WandItem extends Item {
 		return core;
 	}
 
+	public static SpellType[] getRunes(ItemStack stack) {
+		if (!stack.hasTag() || !stack.getTag().contains("runes", Constants.NBT.TAG_BYTE_ARRAY)) return new SpellType[0];
+		final byte[] runes = stack.getTag().getByteArray("runes");
+		final SpellType[] ret = new SpellType[runes.length];
+		for (int i = 0; i < runes.length; i++)
+			ret[i] = SpellType.values()[runes[i]];
+		return ret;
+	}
+
+	public static void setRunes(ItemStack stack, SpellType[] runes) {
+		final byte[] runeBytes = new byte[runes.length];
+		for (int i = 0; i < runes.length; i++)
+			runeBytes[i] = (byte) runes[i].ordinal();
+		stack.getOrCreateTag().putByteArray("runes", runeBytes);
+	}
+
+	public static boolean isResearchAttempted(ItemStack stack, Spell spell) {
+		return stack.hasTag() && stack.getTag().getBoolean("researchAttempted")
+				&& stack.getTag().contains("researchSpell", Constants.NBT.TAG_STRING)
+				&& stack.getTag().getString("researchSpell").equals(spell.getId().toString());
+	}
+
+	public static void setResearchAttempted(ItemStack stack, boolean attempted, @Nullable Spell spell) {
+		stack.getOrCreateTag().putBoolean("researchAttempted", attempted);
+		if (spell != null)
+			stack.getOrCreateTag().putString("researchSpell", spell.getId().toString());
+	}
+
+	public static void removeResearchAttempted(ItemStack stack) {
+		stack.getOrCreateTag().remove("researchAttempted");
+		stack.getOrCreateTag().remove("researchSpell");
+	}
+
+	@Nullable
+	public static String getResearchSpell(ItemStack stack) {
+		return stack.hasTag() && stack.getTag().contains("researchSpell", Constants.NBT.TAG_STRING) ? stack.getTag().getString("researchSpell") : null;
+	}
+
 	@Nullable
 	private static ResourceLocation maybeGet(ItemStack stack, String key) {
 		if (!stack.hasTag() || !stack.getTag().contains("wandMaterials", Constants.NBT.TAG_COMPOUND)) return null;
@@ -88,6 +130,20 @@ public class WandItem extends Item {
 		if (bottomCap != null)
 			tooltip.add(new TranslationTextComponent(bottomCap.getLangKey()).mergeStyle(TextFormatting.GRAY));
 
+		final SpellType[] runes = getRunes(stack);
+		if (runes.length != 0) {
+			final TranslationTextComponent[] runeComps = Arrays.stream(runes).sorted().map(r -> new TranslationTextComponent(r.getLangKey())).toArray(TranslationTextComponent[]::new);
+			final StringTextComponent add = new StringTextComponent("");
+			for (int i = 0; i < runeComps.length; i++) {
+				if (i != 0) add.appendString(", ");
+				add.appendSibling(runeComps[i]);
+			}
+			tooltip.add(new TranslationTextComponent("assortedspells.wand.runes", add).mergeStyle(TextFormatting.GRAY));
+		}
+
+		if (stack.hasTag() && stack.getTag().getBoolean("researchAttempted"))
+			tooltip.add(new StringTextComponent("Research has been attempted.").mergeStyle(TextFormatting.GRAY));
+
 		super.addInformation(stack, worldIn, tooltip, flagIn);
 	}
 
@@ -102,12 +158,17 @@ public class WandItem extends Item {
 		final ItemStack stack = playerIn.getHeldItem(handIn);
 		final SpellCapability caps = SpellCapability.get(playerIn);
 
-		if (caps.getSelected() == null)
-			playerIn.sendStatusMessage(new TranslationTextComponent("assortedspells.message.nospells"), true);
+		if (getResearchSpell(stack) == null) {
+			if (caps.getSelected() == null)
+				playerIn.sendStatusMessage(new TranslationTextComponent("assortedspells.message.nospells"), true);
 
-		else if (caps.getSelected().canCast(caps, stack)) {
-			caps.castSelected(stack);
-			return ActionResult.resultSuccess(stack);
+			else if (caps.getSelected().canCast(caps, stack)) {
+				caps.castSelected(stack);
+				return ActionResult.resultSuccess(stack);
+			}
+		} else {
+			setResearchAttempted(stack, true, null);
+			playerIn.sendStatusMessage(new StringTextComponent("Luckily, the code is incomplete; here's your attempt."), true);
 		}
 
 		return ActionResult.resultPass(stack);

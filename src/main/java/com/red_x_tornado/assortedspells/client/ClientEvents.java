@@ -1,18 +1,26 @@
 package com.red_x_tornado.assortedspells.client;
 
+import java.util.Arrays;
+
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.capability.SpellCapability;
+import com.red_x_tornado.assortedspells.client.gui.ResearchTableScreen;
 import com.red_x_tornado.assortedspells.client.gui.WandBuilderScreen;
 import com.red_x_tornado.assortedspells.client.model.WandLoader;
 import com.red_x_tornado.assortedspells.init.ASContainers;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
+import com.red_x_tornado.assortedspells.tileentity.container.ResearchTableContainer;
+import com.red_x_tornado.assortedspells.util.research.MatchType;
+import com.red_x_tornado.assortedspells.util.research.ResearchAttempt;
+import com.red_x_tornado.assortedspells.util.research.ResearchInstance;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
@@ -20,6 +28,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -83,15 +92,48 @@ public class ClientEvents {
 		@SubscribeEvent
 		public static void onClientSetup(FMLClientSetupEvent event) {
 			ScreenManager.registerFactory(ASContainers.WAND_BUILDER.get(), WandBuilderScreen::new);
+			ScreenManager.registerFactory(ASContainers.RESEARCH_TABLE.get(), ResearchTableScreen::new);
 		}
 		@SubscribeEvent
 		public static void registerLoaders(ModelRegistryEvent event) {
 			ModelLoaderRegistry.registerLoader(new ResourceLocation(BookOfAssortedSpells.MOD_ID, "wand"), WandLoader.INSTANCE);
+		}
+		@SubscribeEvent
+		public static void addSprites(TextureStitchEvent.Pre event) {
+			if (event.getMap().getTextureLocation().equals(PlayerContainer.LOCATION_BLOCKS_TEXTURE))
+				event.addSprite(ResearchTableContainer.WAND_SLOT);
 		}
 	}
 
 	public static void handleSync(SpellCapability newCaps) {
 		final SpellCapability caps = SpellCapability.get(Minecraft.getInstance().player);
 		caps.copyFrom(newCaps);
+		refreshResearch(caps);
+	}
+
+	public static void refreshResearchAttempts() {
+		if (Minecraft.getInstance().currentScreen instanceof ResearchTableScreen) {
+			final ResearchTableScreen screen = (ResearchTableScreen) Minecraft.getInstance().currentScreen;
+			screen.refreshResearchAttempts();
+		}
+	}
+
+	public static void refreshResearch(SpellCapability caps) {
+		if (Minecraft.getInstance().currentScreen instanceof ResearchTableScreen) {
+			final ResearchTableScreen screen = (ResearchTableScreen) Minecraft.getInstance().currentScreen;
+			screen.populateResearch();
+			if (screen.getContainer().selected != null) {
+				final ResearchInstance res = caps.getResearch().get(screen.getContainer().selected.getResearch().getSpell());
+				if (res != null) {
+					screen.getContainer().selected = res;
+				} else {
+					screen.getContainer().selected.getAttempts().add(new ResearchAttempt(
+							Arrays.stream(screen.getContainer().getRuneSpellTypes())
+							.map(r -> new ResearchAttempt.RunePair(r, MatchType.EXACT))
+							.toArray(ResearchAttempt.RunePair[]::new)));
+				}
+				screen.refreshResearchAttempts();
+			}
+		}
 	}
 }

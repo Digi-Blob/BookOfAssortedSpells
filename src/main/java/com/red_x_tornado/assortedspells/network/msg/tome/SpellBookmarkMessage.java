@@ -35,9 +35,9 @@ public class SpellBookmarkMessage {
 			final Spell spell = Spell.find(msg.spellId);
 
 			if (spell == null)
-				BookOfAssortedSpells.LOGGER.warn("{} tried to bookmark non-existent spell: {}!", ctx.get().getSender().getName(), msg.spellId);
+				BookOfAssortedSpells.LOGGER.warn("{} tried to bookmark non-existent spell: {}!", ctx.get().getSender().getName().getString(), msg.spellId);
 			else if (!caps.isKnown(spell))
-				BookOfAssortedSpells.LOGGER.warn("{} tried to bookmark unknown spell {}!", ctx.get().getSender().getName(), msg.spellId);
+				BookOfAssortedSpells.LOGGER.warn("{} tried to bookmark unknown spell {}!", ctx.get().getSender().getName().getString(), msg.spellId);
 			else if (msg.bookmark)
 				caps.getBookmarks().add(spell);
 			else

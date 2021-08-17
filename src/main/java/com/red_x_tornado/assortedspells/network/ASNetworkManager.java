@@ -4,6 +4,7 @@ import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.network.msg.SpellSelectionMessage;
 import com.red_x_tornado.assortedspells.network.msg.SpellSyncMessage;
 import com.red_x_tornado.assortedspells.network.msg.WandBuilderMaterialMessage;
+import com.red_x_tornado.assortedspells.network.msg.research.ResearchSelectionMessage;
 import com.red_x_tornado.assortedspells.network.msg.tome.QuickspellModificationMessage;
 import com.red_x_tornado.assortedspells.network.msg.tome.SpellBookmarkMessage;
 
@@ -31,6 +32,7 @@ public class ASNetworkManager {
 		CHANNEL.registerMessage(id++, WandBuilderMaterialMessage.class, WandBuilderMaterialMessage::encode, WandBuilderMaterialMessage::decode, WandBuilderMaterialMessage::handle);
 		CHANNEL.registerMessage(id++, SpellBookmarkMessage.class, SpellBookmarkMessage::encode, SpellBookmarkMessage::decode, SpellBookmarkMessage::handle);
 		CHANNEL.registerMessage(id++, QuickspellModificationMessage.class, QuickspellModificationMessage::encode, QuickspellModificationMessage::decode, QuickspellModificationMessage::handle);
+		CHANNEL.registerMessage(id++, ResearchSelectionMessage.class, ResearchSelectionMessage::encode, ResearchSelectionMessage::decode, ResearchSelectionMessage::handle);
 	}
 
 	public static SimpleChannel get() {

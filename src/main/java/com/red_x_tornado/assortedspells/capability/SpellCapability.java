@@ -2,14 +2,18 @@ package com.red_x_tornado.assortedspells.capability;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
 import com.red_x_tornado.assortedspells.BookOfAssortedSpells;
 import com.red_x_tornado.assortedspells.util.cast.CastContext;
 import com.red_x_tornado.assortedspells.util.cast.ISpellCaster;
+import com.red_x_tornado.assortedspells.util.research.ResearchData;
+import com.red_x_tornado.assortedspells.util.research.ResearchInstance;
 import com.red_x_tornado.assortedspells.util.spell.Spell;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
@@ -39,6 +43,8 @@ public class SpellCapability {
 	private final List<SpellInstance> knownSpells = new ArrayList<>();
 	private final SpellInstance[] quickSpells = new SpellInstance[MAX_QUICK_SPELLS];
 
+	private final Map<Spell,ResearchInstance> research = new HashMap<>();
+
 	private final List<CastContext> casters = new ArrayList<>(1);
 
 	private final List<Spell> bookmarks = new ArrayList<>();
@@ -67,10 +73,48 @@ public class SpellCapability {
 		return bookmarks;
 	}
 
+	public Map<Spell,ResearchInstance> getResearch() {
+		return research;
+	}
+
 	public boolean unlock(Spell spell) {
 		if (isKnown(spell)) return false;
 
+		research.remove(spell);
 		knownSpells.add(new SpellInstance(spell));
+
+		return true;
+	}
+
+	public boolean discover(Spell spell) {
+		if (isDiscovered(spell)) return false;
+
+		research.put(spell, new ResearchInstance(ResearchData.forSpell(spell)));
+
+		return true;
+	}
+
+	public boolean undiscover(Spell spell) {
+		if (!isDiscovered(spell)) return false;
+
+		research.remove(spell);
+
+		final Iterator<SpellInstance> it = knownSpells.iterator();
+		while (it.hasNext())
+			if (it.next().getSpell() == spell) {
+				it.remove();
+				break;
+			}
+
+		for (int i = 0; i < quickSpells.length; i++)
+			if (quickSpells[i] != null && quickSpells[i].getSpell() == spell)
+				quickSpells[i] = null;
+
+		if (getSelected() != null && getSelected().getSpell() == spell)
+			selected = null;
+
+		bookmarks.remove(spell);
+
 		return true;
 	}
 
@@ -86,6 +130,10 @@ public class SpellCapability {
 				return i;
 
 		return -1;
+	}
+
+	public boolean isDiscovered(Spell spell) {
+		return research.get(spell) != null || isKnown(spell);
 	}
 
 	public boolean isKnown(Spell spell) {
@@ -163,6 +211,8 @@ public class SpellCapability {
 		selected = caps.getSelected();
 		bookmarks.clear();
 		bookmarks.addAll(caps.bookmarks);
+		research.clear();
+		research.putAll(caps.research);
 	}
 
 	public void write(PacketBuffer buf) {
@@ -184,6 +234,10 @@ public class SpellCapability {
 		buf.writeInt(bookmarks.size());
 		for (Spell spell : bookmarks)
 			buf.writeResourceLocation(spell.getId());
+
+		buf.writeInt(research.size());
+		for (ResearchInstance res : research.values())
+			buf.writeCompoundTag(res.toNBT(true));
 	}
 
 	public void read(PacketBuffer buf) {
@@ -208,6 +262,13 @@ public class SpellCapability {
 			else
 				bookmarks.add(spell);
 		}
+
+		research.clear();
+		final int researchCount = buf.readInt();
+		for (int i = 0; i < researchCount; i++) {
+			final ResearchInstance res = ResearchInstance.fromNBT(buf.readCompoundTag(), true);
+			research.put(res.getResearch().getSpell(), res);
+		}
 	}
 
 	public CompoundNBT write() {
@@ -231,6 +292,13 @@ public class SpellCapability {
 			bookmarkTag.add(StringNBT.valueOf(spell.getId().toString()));
 
 		nbt.put("bookmarks", bookmarkTag);
+
+		final ListNBT researchTag = new ListNBT();
+
+		for (ResearchInstance res : research.values())
+			researchTag.add(res.toNBT(false));
+
+		nbt.put("research", researchTag);
 
 		return nbt;
 	}
@@ -260,6 +328,16 @@ public class SpellCapability {
 					BookOfAssortedSpells.LOGGER.warn("Spell not found: {}, skipping bookmark for it.", id);
 				else
 					bookmarks.add(spell);
+			}
+		}
+
+		research.clear();
+
+		if (nbt.contains("research", Constants.NBT.TAG_LIST)) {
+			final ListNBT researchTag = nbt.getList("research", Constants.NBT.TAG_COMPOUND);
+			for (int i = 0; i < researchTag.size(); i++) {
+				final ResearchInstance res = ResearchInstance.fromNBT(researchTag.getCompound(i), false);
+				research.put(res.getResearch().getSpell(), res);
 			}
 		}
 	}

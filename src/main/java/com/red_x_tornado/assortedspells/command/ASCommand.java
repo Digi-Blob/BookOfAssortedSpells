@@ -23,14 +23,20 @@ public class ASCommand {
 		return literal("assortedspells").requires(src -> src.hasPermissionLevel(2))
 				.then(literal("unlock").then(argument("id", ResourceLocationArgument.resourceLocation())
 						.suggests(suggestSpells(caps -> () -> Spell.getSpells().stream().filter(s -> !caps.isKnown(s)).iterator()))
-						.executes(ASCommand::unlock)));
+						.executes(ASCommand::unlock)))
+				.then(literal("discover").then(argument("id", ResourceLocationArgument.resourceLocation())
+						.suggests(suggestSpells(caps -> () -> Spell.getSpells().stream().filter(s -> !caps.isDiscovered(s)).iterator()))
+						.executes(ASCommand::discover)))
+				.then(literal("undiscover").then(argument("id", ResourceLocationArgument.resourceLocation())
+						.suggests(suggestSpells(caps -> () -> Spell.getSpells().stream().filter(s -> caps.isDiscovered(s)).iterator()))
+						.executes(ASCommand::undiscover)));
 	}
 
 	private static int unlock(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
 		final ResourceLocation id = ResourceLocationArgument.getResourceLocation(ctx, "id");
 		final Spell spell = Spell.find(id);
 		if (spell == null) {
-			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.unlock.notfound", id));
+			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.spellnotfound", id));
 			return 0;
 		}
 
@@ -42,6 +48,46 @@ public class ASCommand {
 			ctx.getSource().sendFeedback(new TranslationTextComponent("assortedspells.command.unlock.success", id), false);
 		} else
 			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.unlock.fail", id));
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private static int discover(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+		final ResourceLocation id = ResourceLocationArgument.getResourceLocation(ctx, "id");
+		final Spell spell = Spell.find(id);
+		if (spell == null) {
+			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.spellnotfound", id));
+			return 0;
+		}
+
+		final PlayerEntity player = ctx.getSource().asPlayer();
+		final SpellCapability caps = SpellCapability.get(player);
+
+		if (caps.discover(spell)) {
+			SpellSyncMessage.sync(player);
+			ctx.getSource().sendFeedback(new TranslationTextComponent("assortedspells.command.discover.success", id), false);
+		} else
+			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.discover.fail", id));
+
+		return Command.SINGLE_SUCCESS;
+	}
+
+	private static int undiscover(CommandContext<CommandSource> ctx) throws CommandSyntaxException {
+		final ResourceLocation id = ResourceLocationArgument.getResourceLocation(ctx, "id");
+		final Spell spell = Spell.find(id);
+		if (spell == null) {
+			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.spellnotfound", id));
+			return 0;
+		}
+
+		final PlayerEntity player = ctx.getSource().asPlayer();
+		final SpellCapability caps = SpellCapability.get(player);
+
+		if (caps.undiscover(spell)) {
+			SpellSyncMessage.sync(player);
+			ctx.getSource().sendFeedback(new TranslationTextComponent("assortedspells.command.undiscover.success", id), false);
+		} else
+			ctx.getSource().sendErrorMessage(new TranslationTextComponent("assortedspells.command.undiscover.fail", id));
 
 		return Command.SINGLE_SUCCESS;
 	}

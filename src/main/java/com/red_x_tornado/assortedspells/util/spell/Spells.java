@@ -65,7 +65,7 @@ public final class Spells {
 	/**
 	 * A spell that temporarily freezes an entity in place.
 	 */
-	public static final Spell FREEZE = new ParticleBeamSpell(ATTACK, WATER, SIMPLE, 5 * 20, 5 * 30, 30, as("freeze"), INSTANT, ParticleTypes.WHITE_ASH) {
+	public static final Spell FREEZE = new ParticleBeamSpell(ATTACK, WATER, INSANE, 5 * 20, 5 * 30, 30, as("freeze"), INSTANT, ParticleTypes.WHITE_ASH) {
 		@Override
 		protected void serverCast(SpellCapability caps, CastContext ctx) {
 			if (ctx.getTargetEntity() instanceof LivingEntity)

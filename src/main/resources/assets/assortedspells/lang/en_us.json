@@ -60,6 +60,7 @@
 
   "block.assortedspells.runestone": "Runestone",
   "block.assortedspells.wand_builder": "Wand Station",
+  "block.assortedspells.research_table": "Research Table",
 
   "assortedspells.class.support": "Support",
   "assortedspells.class.utility": "Utility",
@@ -139,9 +140,15 @@
   "assortedspells.wand_core.sea_pickle": "Sea Pickle Core",
   "assortedspells.wand_core.wheat": "Wheat Core",
 
+  "assortedspells.wand.runes": "Runes: %s",
+
+  "assortedspells.command.spellnotfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.fail": "Couldn't unlock spell %s.",
-  "assortedspells.command.unlock.notfound": "Unknown spell: %s.",
   "assortedspells.command.unlock.success": "Successfully unlocked spell %s.",
+  "assortedspells.command.discover.fail": "Couldn't discover spell %s.",
+  "assortedspells.command.discover.success": "Successfully discovered spell %s.",
+  "assortedspells.command.undiscover.fail": "Couldn't undiscover spell %s.",
+  "assortedspells.command.undiscover.success": "Successfully undiscovered spell %s.",
 
   "assortedspells.message.nospells": "You don't have any selected spells.",
 

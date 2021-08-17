@@ -35,18 +35,18 @@ public class QuickspellModificationMessage {
 			final Spell spell = Spell.find(msg.spell);
 
 			if (spell == null)
-				BookOfAssortedSpells.LOGGER.warn("{} tried to change quickspell status of non-existent spell: {}!", ctx.get().getSender().getName(), msg.spell);
+				BookOfAssortedSpells.LOGGER.warn("{} tried to change quickspell status of non-existent spell: {}!", ctx.get().getSender().getName().getString(), msg.spell);
 			else if (!caps.isKnown(spell))
-				BookOfAssortedSpells.LOGGER.warn("{} tried to change quickspell status of unknown spell {}!", ctx.get().getSender().getName(), msg.spell);
+				BookOfAssortedSpells.LOGGER.warn("{} tried to change quickspell status of unknown spell {}!", ctx.get().getSender().getName().getString(), msg.spell);
 
 			else if (msg.newSlot >= caps.getQuickSpells().length || msg.newSlot < -1)
-				BookOfAssortedSpells.LOGGER.warn("{} tried to change quickspell status of {} using bad slot index {}!", ctx.get().getSender().getName(), msg.spell, msg.newSlot);
+				BookOfAssortedSpells.LOGGER.warn("{} tried to change quickspell status of {} using bad slot index {}!", ctx.get().getSender().getName().getString(), msg.spell, msg.newSlot);
 			else {
 				if (msg.newSlot == -1) {
 					final int index = caps.findSpellInQuickSpells(spell);
 					if (index != -1)
 						caps.getQuickSpells()[index] = null;
-					else BookOfAssortedSpells.LOGGER.warn("{} tried to remove quickspell {} that isn't in their quickspells!", ctx.get().getSender().getName(), msg.spell);
+					else BookOfAssortedSpells.LOGGER.warn("{} tried to remove quickspell {} that isn't in their quickspells!", ctx.get().getSender().getName().getString(), msg.spell);
 				}
 				else {
 					final int index = caps.findSpellInQuickSpells(spell);
