@@ -105,6 +105,10 @@ public class CastContext {
 		return MathHelper.ceil(duration);
 	}
 
+	public Direction getHitFace() {
+		return hitFace;
+	}
+
 	public Vector3d getPos() {
 		return pos;
 	}

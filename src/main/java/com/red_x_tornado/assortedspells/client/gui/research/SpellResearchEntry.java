@@ -35,16 +35,8 @@ public class SpellResearchEntry extends ScrollableList.Element {
 		fill(matrixStack, x, y, x + width, y + height - 1, 0xFFbbbbbb);
 		GuiUtil.hfill(matrixStack, x, y, x + width - 1, y + height - 1, 1, hovered ? 0xFFFFFFFF : 0xFF333333);
 
-		final List<IReorderingProcessor> name = font.trimStringToWidth(new TranslationTextComponent(spell.getLangKey()), width);
-
-		y += height / 2 - (name.size() * font.FONT_HEIGHT) / 2;
-		int yOffset = 0;
-
-		for (IReorderingProcessor proc : name) {
-			final int textWidth = font.func_243245_a(proc);
-			final int textX = x + width / 2 - textWidth / 2;
-			font.func_238422_b_(matrixStack, proc, textX, y + yOffset, 0x0000FF);
-			yOffset += font.FONT_HEIGHT;
-		}
+		GuiUtil.drawSplitText(font, matrixStack,
+				new TranslationTextComponent(spell.getLangKey()),
+				x + 1, y, width - 2, height, 0x0000FF, true, true);
 	}
 }

@@ -204,7 +204,7 @@ public class ResearchTableContainer extends Container {
 				}
 			}
 			else if (slotStack.getItem() instanceof RuneItem) {
-				if (!mergeItemStack(slotStack, 1, 8, true))
+				if (!mergeItemStack(slotStack, 1, runeCount + 1, false))
 					return ItemStack.EMPTY;
 			}
 

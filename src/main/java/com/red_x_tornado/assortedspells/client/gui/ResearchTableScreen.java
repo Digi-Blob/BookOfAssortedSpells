@@ -128,17 +128,13 @@ public class ResearchTableScreen extends ContainerScreen<ResearchTableContainer>
 
 			super.render(matrixStack, mouseX, mouseY, partialTicks);
 
-			matrixStack.push();
-			matrixStack.translate(0, 0, 0);
-
 			leftPane.render(matrixStack, mouseX, mouseY, partialTicks);
 			rightPane.render(matrixStack, mouseX, mouseY, partialTicks);
 
-			matrixStack.pop();
-
 			if (container.selected != null) {
-				font.drawText(matrixStack, new TranslationTextComponent(container.selected.getResearch().getSpell().getLangKey()),
-						guiLeft + 10, guiTop + 20, 0x000000);
+				//GuiUtil.hfill(matrixStack, guiLeft + 10, guiTop + 20, guiLeft + 10 + 66, guiTop + 20 + 28, 0, 0xFFFF0000);
+				GuiUtil.drawSplitText(font, matrixStack, new TranslationTextComponent(container.selected.getResearch().getSpell().getLangKey()),
+						guiLeft + 10, guiTop + 20, 66, 28, 0x444444, false, false);
 			}
 
 			drawAttempt(matrixStack);
