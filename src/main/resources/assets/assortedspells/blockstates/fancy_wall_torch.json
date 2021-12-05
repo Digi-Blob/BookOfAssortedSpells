@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=east,lit=true": { "model": "assortedspells:block/fancy_wall_torch" },
+    "facing=north,lit=true": { "model": "assortedspells:block/fancy_wall_torch", "y": 270 },
+    "facing=south,lit=true": { "model": "assortedspells:block/fancy_wall_torch", "y": 90 },
+    "facing=west,lit=true": { "model": "assortedspells:block/fancy_wall_torch", "y": 180 },
+    "facing=east,lit=false": { "model": "assortedspells:block/fancy_wall_torch_off" },
+    "facing=north,lit=false": { "model": "assortedspells:block/fancy_wall_torch_off", "y": 270 },
+    "facing=south,lit=false": { "model": "assortedspells:block/fancy_wall_torch_off", "y": 90 },
+    "facing=west,lit=false": { "model": "assortedspells:block/fancy_wall_torch_off", "y": 180 }
+  }
+}

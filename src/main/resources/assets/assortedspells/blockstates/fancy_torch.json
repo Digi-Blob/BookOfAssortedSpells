@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "lit=true": { "model": "assortedspells:block/fancy_torch" },
+    "lit=false": { "model": "assortedspells:block/fancy_torch_off" }
+  }
+}

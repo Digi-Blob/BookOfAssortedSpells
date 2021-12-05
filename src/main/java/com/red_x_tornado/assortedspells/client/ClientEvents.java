@@ -7,6 +7,7 @@ import com.red_x_tornado.assortedspells.capability.SpellCapability;
 import com.red_x_tornado.assortedspells.client.gui.ResearchTableScreen;
 import com.red_x_tornado.assortedspells.client.gui.WandBuilderScreen;
 import com.red_x_tornado.assortedspells.client.model.WandLoader;
+import com.red_x_tornado.assortedspells.init.ASBlocks;
 import com.red_x_tornado.assortedspells.init.ASContainers;
 import com.red_x_tornado.assortedspells.item.WandItem;
 import com.red_x_tornado.assortedspells.network.ASNetworkManager;
@@ -19,6 +20,8 @@ import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.PlayerContainer;
 import net.minecraft.item.ItemStack;
@@ -93,6 +96,8 @@ public class ClientEvents {
 		public static void onClientSetup(FMLClientSetupEvent event) {
 			ScreenManager.registerFactory(ASContainers.WAND_BUILDER.get(), WandBuilderScreen::new);
 			ScreenManager.registerFactory(ASContainers.RESEARCH_TABLE.get(), ResearchTableScreen::new);
+			RenderTypeLookup.setRenderLayer(ASBlocks.FANCY_TORCH.get(), RenderType.getCutout());
+			RenderTypeLookup.setRenderLayer(ASBlocks.FANCY_WALL_TORCH.get(), RenderType.getCutout());
 		}
 		@SubscribeEvent
 		public static void registerLoaders(ModelRegistryEvent event) {
