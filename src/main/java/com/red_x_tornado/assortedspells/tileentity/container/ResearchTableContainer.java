@@ -40,7 +40,7 @@ public class ResearchTableContainer extends Container {
 	private final SpellCapability caps;
 
 	protected Slot wand;
-	public final Slot[] runeSlots = new Slot[7];
+	public final RuneSlot[] runeSlots = new RuneSlot[7];
 	public int runeCount = 0;
 	@Nullable
 	public ResearchInstance selected;
@@ -60,14 +60,14 @@ public class ResearchTableContainer extends Container {
 
 	public SpellType[] getRuneSpellTypes() {
 		int len = 0;
-		for (Slot slot : runeSlots)
+		for (RuneSlot slot : runeSlots)
 			if (slot.isEnabled())
 				len++;
 
 		final SpellType[] ret = new SpellType[len];
 
 		int i = 0;
-		for (Slot slot : runeSlots)
+		for (RuneSlot slot : runeSlots)
 			if (slot.isEnabled())
 				ret[i++] = slot.getHasStack() && slot.getStack().getItem() instanceof RuneItem ? ((RuneItem) slot.getStack().getItem()).getType() : null;
 
@@ -103,7 +103,7 @@ public class ResearchTableContainer extends Container {
 		wand.setBackground(PlayerContainer.LOCATION_BLOCKS_TEXTURE, WAND_SLOT);
 
 		for (int i = 0; i < 7; i++)
-			addSlot(runeSlots[i] = new Slot(researchTableInv, i + 1, 16 + 21 * i, 51) {
+			addSlot(runeSlots[i] = new RuneSlot(researchTableInv, i + 1, 16 + 21 * i, 51) {
 				@Override
 				public boolean isEnabled() {
 					return slotNumber <= runeCount;
@@ -227,5 +227,17 @@ public class ResearchTableContainer extends Container {
 		researchTableInv.closeInventory(playerIn);
 		super.onContainerClosed(playerIn);
 		worldPosCallable.consume((world, pos) -> clearContainer(playerIn, world, researchTableInv));
+	}
+
+	private static class RuneSlot extends Slot {
+
+		public RuneSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+			super(inventoryIn, index, xPosition, yPosition);
+		}
+
+		@Override
+		public boolean isEnabled() {
+			return true;
+		}
 	}
 }
