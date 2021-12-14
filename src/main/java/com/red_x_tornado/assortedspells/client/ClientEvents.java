@@ -66,6 +66,7 @@ public class ClientEvents {
 
 			if (stack.getItem() instanceof WandItem) {
 				final SpellCapability caps = SpellCapability.get(player);
+				if (caps == null) return;
 
 				final int direction = event.getScrollDelta() < 0 ? -1 : 1;
 				int startIndex = caps.findSpellInQuickSpells(caps.getSelected().getSpell());
