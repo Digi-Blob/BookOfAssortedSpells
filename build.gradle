@@ -18,7 +18,7 @@ archivesBaseName = 'BookOfAssortedSpells'
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.8'
+    minecraft 'net.minecraftforge:forge:1.16.5-36.2.22'
 }
 
 minecraft {
