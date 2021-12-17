@@ -236,6 +236,7 @@ public class WandBuilderContainer extends Container {
 		rod.decrStackSize(1);
 		core.decrStackSize(1);
 		bottomCap.decrStackSize(1);
+
 		topCap.onSlotChanged();
 		rod.onSlotChanged();
 		core.onSlotChanged();
@@ -256,5 +257,36 @@ public class WandBuilderContainer extends Container {
 	public void onContainerClosed(PlayerEntity playerIn) {
 		wandBuilderInv.closeInventory(playerIn);
 		super.onContainerClosed(playerIn);
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+		ItemStack stack = ItemStack.EMPTY;
+		final Slot slot = getSlot(index);
+
+		if (slot != null && slot.getHasStack()) {
+			final ItemStack slotStack = slot.getStack();
+			stack = slotStack.copy();
+
+			// If the slot is in the wand builder inventory...
+			if (index < wandBuilderInv.getSizeInventory()) {
+				// ... try to place it in the player inventory.
+				// Note that inventorySlots is a list of all slots in the container.
+				if (!mergeItemStack(slotStack, wandBuilderInv.getSizeInventory(), inventorySlots.size() - wandBuilderInv.getSizeInventory(), true))
+					return ItemStack.EMPTY;
+			} else {
+				if (!mergeItemStack(slotStack, 0, wandBuilderInv.getSizeInventory(), false))
+					return ItemStack.EMPTY;
+			}
+
+			if (slotStack.isEmpty())
+				slot.putStack(ItemStack.EMPTY);
+			else
+				slot.onSlotChanged();
+
+			slot.onTake(playerIn, slotStack);
+		}
+
+		return stack;
 	}
 }
