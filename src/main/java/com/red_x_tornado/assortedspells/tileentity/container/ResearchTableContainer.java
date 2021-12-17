@@ -166,7 +166,7 @@ public class ResearchTableContainer extends Container {
 	}
 
 	protected void onTakeWand(PlayerEntity player, ItemStack wand) {
-		if (selected != null && WandItem.getRunes(wand).length == 0) {
+		if (selected != null && caps.getResearch().containsValue(selected) && WandItem.getRunes(wand).length == 0) {
 			final SpellType[] runes = getRuneSpellTypes();
 			for (SpellType type : runes)
 				if (type == null) return;
@@ -195,6 +195,8 @@ public class ResearchTableContainer extends Container {
 			if (index < researchTableInv.getSizeInventory()) {
 				// ... try to place it in the player inventory.
 				// Note that inventorySlots is a list of all slots in the container.
+				if (slot == wand)
+					onTakeWand(playerIn, slotStack);
 				if (!mergeItemStack(slotStack, researchTableInv.getSizeInventory(), inventorySlots.size() - 9, true))
 					return ItemStack.EMPTY;
 			} else if (slotStack.getItem() instanceof WandItem) { // It's a wand!
@@ -212,6 +214,8 @@ public class ResearchTableContainer extends Container {
 				slot.putStack(ItemStack.EMPTY);
 			else
 				slot.onSlotChanged();
+
+			slot.onTake(playerIn, stack);
 		}
 
 		return stack;
