@@ -5,6 +5,7 @@ import javax.annotation.Nullable;
 import com.red_x_tornado.assortedspells.util.spell.SpellInstance;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
@@ -24,19 +25,22 @@ public class CastContext {
 	@Nullable
 	private final Entity targetEntity;
 
+	private final ItemStack wandStack;
+
 	private final double duration;
 
 	private int ticks = 0;
 	private Vector3d pos;
 
-	public CastContext(SpellInstance spell, ISpellCaster caster, Vector3d start, Vector3d target, Vector3d lookDirection, @Nullable Direction hitFace, @Nullable Entity targetEntity) {
+	public CastContext(SpellInstance spell, ISpellCaster caster, Vector3d start, Vector3d target, Vector3d lookDirection, @Nullable Direction hitFace, @Nullable Entity targetEntity, ItemStack wandStack) {
 		this.spell = spell;
 		this.caster = caster;
-		this.target = target;
-		this.targetEntity = targetEntity;
 		this.start = start;
+		this.target = target;
 		this.lookDirection = lookDirection;
 		this.hitFace = hitFace;
+		this.targetEntity = targetEntity;
+		this.wandStack = wandStack;
 		pos = start;
 		duration = start.distanceTo(target) / spell.getSpell().getMaxDistance() * spell.getDuration();
 	}
@@ -60,6 +64,10 @@ public class CastContext {
 	@Nullable
 	public Entity getTargetEntity() {
 		return targetEntity;
+	}
+
+	public ItemStack getWandStack() {
+		return wandStack;
 	}
 
 	protected Vector3d interpolatePos(int ticks) {

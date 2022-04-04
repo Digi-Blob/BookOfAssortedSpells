@@ -183,7 +183,7 @@ public class SpellCapability {
 			hit = newHit == null ? entityRay.getHitVec() : newHit;
 		} else hit = ray.getHitVec();
 
-		final CastContext ctx = new CastContext(spell, caster, start, hit, look, hitFace, targetEntity);
+		final CastContext ctx = new CastContext(spell, caster, start, hit, look, hitFace, targetEntity, stack);
 
 		if (caster.begin(this, ctx))
 			casters.add(ctx);
