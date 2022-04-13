@@ -28,7 +28,7 @@ public class ResearchAttempt {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
-		if (!(obj instanceof ResearchAttempt)) return false;
+		if (obj == null || getClass() != obj.getClass()) return false;
 
 		return Arrays.equals(runes, ((ResearchAttempt) obj).runes);
 	}
@@ -64,7 +64,7 @@ public class ResearchAttempt {
 		@Override
 		public boolean equals(Object obj) {
 			if (obj == this) return true;
-			if (!(obj instanceof RunePair)) return false;
+			if (obj == null || getClass() != obj.getClass()) return false;
 			final RunePair o = (RunePair) obj;
 
 			return rune == o.rune && match == o.match;

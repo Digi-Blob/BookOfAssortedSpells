@@ -31,7 +31,7 @@ public class WandModelKey {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == this) return true;
-		if (!(obj instanceof WandModelKey)) return false;
+		if (obj == null || getClass() != obj.getClass()) return false;
 		final WandModelKey o = (WandModelKey) obj;
 
 		return cap1.equals(o.cap1) && rod.equals(o.rod) && cap2.equals(o.cap2);
